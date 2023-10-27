@@ -4,33 +4,14 @@ import RowDictionaryAdvanced from "../components/content/row-dictionary-advanced
 
 class Dictionary extends Component {
 
-    constructor(props) {
-        super(props);
-        this.filterDictionary=this.filterDictionary.bind(this);
-    }
-
-    filterDictionary() {
-        let filteredDictionary = [];
-        if(this.props.filter === '') {
-            filteredDictionary = [...this.props.dictionary];
-        } else {
-            const regex = new RegExp(this.props.filter);
-            for (let i=0; i<this.props.dictionary.length; i++) {
-                if (regex.test(this.props.dictionary[i].English)) {
-                    filteredDictionary.push(this.props.dictionary[i])
-                }
-            }
-        }
-        //console.log(filteredDictionary);
-        /*this.setState({
-            visibleDictionary: filteredDictionary
-        })*/
-        return filteredDictionary
+    componentDidMount() {
+        this.props.getMaxPage();
+        this.props.adjustVisibleDictionary();
     }
 
     render() {
-        const filteredDictionary = this.filterDictionary();
-        const tableDictionary = filteredDictionary.map(item => {
+        //const filteredDictionary = this.filterDictionary();
+        const tableDictionary = this.props.visibleDictionary.map(item => {
             return (
                 <RowDictionaryAdvanced
                     rowId={item.id}
@@ -82,7 +63,7 @@ class Dictionary extends Component {
                             <div className="mx-2 mb-2 row">
                                 <div className="col-4">
                                     <select className="form-select" id="autoSizingSelect">
-                                        <option selected>Choose...</option>
+                                        <option>Choose...</option>
                                         <option value={this.props.languageOne}>{this.props.languageOne}</option>
                                         <option value={this.props.languageTwo}>{this.props.languageTwo}</option>
                                         <option value="Level">Level</option>
@@ -122,6 +103,33 @@ class Dictionary extends Component {
                                     {tableDictionary}
                                 </tbody>
                             </table>
+                            <div className="row">
+                                <div className="col-4">
+                                    
+                                </div>
+                                <div className="col-4">
+                                    <p className="fw-normal mt-1">
+                                        <a href="#" onClick={this.props.pageNumberDecrease}>
+                                            <i className="fa-solid fa-caret-left mx-1"></i>
+                                        </a>
+                                        Page {this.props.currentPage} of {this.props.maxPage}
+                                        <a href="#" onClick={this.props.pageNumberIncrease}>
+                                            <i className="fa-solid fa-caret-right mx-1"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <select className="form-select mb-2"
+                                        id="autoSizingSelect"
+                                        onChange={this.props.adjustAmountItems}
+                                    >
+                                        <option value={10}>10 per page</option>
+                                        <option value={20}>20 per page</option>
+                                        <option value={50}>50 per page</option>
+                                        <option value="all">all items</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

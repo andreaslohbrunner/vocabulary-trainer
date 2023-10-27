@@ -1,5 +1,4 @@
 import { Component} from "react";
-import RowDictionary from "./row-dictionary-simple";
 import RowDictionarySimple from "./row-dictionary-simple";
 
 class AddVocabularyContent extends Component {
