@@ -82,5 +82,77 @@ export const listEnglishSpanish = [
         English: 'airport',
         Spanish: 'aeropuerto',
         MemoryLevel: 1
+    },
+    {
+        id: 15,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 16,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 17,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 18,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 19,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 20,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 21,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 22,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 23,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 24,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 25,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
+    },
+    {
+        id: 26,
+        English: 'strawberry',
+        Spanish: 'fresa',
+        MemoryLevel: 1
     }
 ]

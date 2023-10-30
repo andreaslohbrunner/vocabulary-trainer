@@ -20,7 +20,8 @@ class App extends Component {
             countryCodeOne: 'US',
             countryCodeTwo: 'ES',
             dictionary: listEnglishSpanish,
-            filter : '',
+            filter: '',
+            filteredDictionary: listEnglishSpanish,
             visibleDictionary: listEnglishSpanish,
             currentPage: 1,
             maxPage: 1,
@@ -32,7 +33,7 @@ class App extends Component {
         this.deleteVocabulary = this.deleteVocabulary.bind(this);
         this.renumberDictionary = this.renumberDictionary.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
-        this.updateVisibleDictionary=this.updateVisibleDictionary.bind(this);
+        this.updateFilteredDictionary=this.updateFilteredDictionary.bind(this);
         this.pageNumberDecrease=this.pageNumberDecrease.bind(this);
         this.pageNumberIncrease=this.pageNumberIncrease.bind(this);
         this.getMaxPage=this.getMaxPage.bind(this);
@@ -123,24 +124,28 @@ class App extends Component {
         this.setState({
             filter: event.target.value
         })
-        this.updateVisibleDictionary(event.target.value);
+        this.updateFilteredDictionary(event.target.value);
     }
 
-    updateVisibleDictionary(expression, dictionary=this.state.dictionary) {
-        let filteredDictionary = [];
+    updateFilteredDictionary(expression, dictionary=this.state.dictionary) {
+        let newDictionary = [];
         if(expression === '') {
-            filteredDictionary = [...dictionary];
+            newDictionary = [...dictionary];
         } else {
             const regex = new RegExp(expression);
             for (let i=0; i<dictionary.length; i++) {
                 if (regex.test(dictionary[i].English)) {
-                    filteredDictionary.push(dictionary[i])
+                    newDictionary.push(dictionary[i])
                 }
             }
         };
         this.setState({
-            visibleDictionary: filteredDictionary
+            filteredDictionary: newDictionary,
+            currentPage: 1
         })
+        this.adjustVisibleDictionary(1, this.state.amountItems, newDictionary);
+        this.getMaxPage(this.state.amountItems, newDictionary);
+        //console.log(newDictionary);
     }
 
     pageNumberDecrease() {
@@ -167,8 +172,8 @@ class App extends Component {
         }
     }
 
-    getMaxPage(amount=this.state.amountItems) {
-        let amountVocabularies = this.state.dictionary.length;
+    getMaxPage(amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
+        let amountVocabularies = dictionary.length;
         this.setState({
             maxPage: Math.ceil(amountVocabularies/amount)
         })
@@ -177,7 +182,7 @@ class App extends Component {
     adjustAmountItems(event) {
         let amount = 0;
         if (event.target.value==="all") {
-            amount = this.state.dictionary.length;
+            amount = this.state.filteredDictionary.length;
             this.setState({
                 currentPage: 1,
                 amountItems: amount
@@ -193,21 +198,21 @@ class App extends Component {
         this.getMaxPage(amount);
     }
 
-    adjustVisibleDictionary(page=this.state.currentPage, amount=this.state.amountItems) {
+    adjustVisibleDictionary(page=this.state.currentPage, amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
         let reducedDictionary = [];
-        console.log(page);
+        //console.log(page);
         let startPoint = (page-1)*this.state.amountItems;
-        console.log("startpoint: " + startPoint);
-        let endPoint = this.state.dictionary.length - startPoint;
+        //console.log("startpoint: " + startPoint);
+        let endPoint = dictionary.length - startPoint;
         endPoint > amount ?  endPoint = startPoint + amount : endPoint = startPoint + endPoint
-        console.log("endpoint: " + endPoint);
+        //console.log("endpoint: " + endPoint);
         for (let i=startPoint; i<endPoint; i++) {
-            reducedDictionary.push(this.state.dictionary[i]);
+            reducedDictionary.push(dictionary[i]);
         }
         this.setState({
             visibleDictionary: reducedDictionary
         })
-        console.log(reducedDictionary);
+        //console.log(reducedDictionary);
     }
 
     render() { 
