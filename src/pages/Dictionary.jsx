@@ -62,11 +62,15 @@ class Dictionary extends Component {
                             <hr />
                             <div className="mx-2 mb-2 row">
                                 <div className="col-4">
-                                    <select className="form-select" id="autoSizingSelect">
-                                        <option>Choose...</option>
+                                    <select
+                                        className="form-select"
+                                        id="autoSizingSelect"
+                                        onChange={this.props.onChangeTypeFilter}
+                                    >
+                                        <option value={this.props.languageOne}>Choose...</option>
                                         <option value={this.props.languageOne}>{this.props.languageOne}</option>
                                         <option value={this.props.languageTwo}>{this.props.languageTwo}</option>
-                                        <option value="Level">Level</option>
+                                        <option value="MemoryLevel">Level</option>
                                     </select>
                                 </div>
                                 <div className="col-8">
@@ -105,17 +109,19 @@ class Dictionary extends Component {
                             </table>
                             <div className="row">
                                 <div className="col-4">
-                                    
+                                <p className="fw-normal mt-1 mx-2">
+                                    {this.props.lengthFilteredDictionary} words found
+                                </p>
                                 </div>
                                 <div className="col-4">
                                     <p className="fw-normal mt-1">
-                                        <a href="#" onClick={this.props.pageNumberDecrease}>
+                                        <button href="#" onClick={this.props.pageNumberDecrease}>
                                             <i className="fa-solid fa-caret-left mx-1"></i>
-                                        </a>
+                                        </button>
                                         Page {this.props.currentPage} of {this.props.maxPage}
-                                        <a href="#" onClick={this.props.pageNumberIncrease}>
+                                        <button href="#" onClick={this.props.pageNumberIncrease}>
                                             <i className="fa-solid fa-caret-right mx-1"></i>
-                                        </a>
+                                        </button>
                                     </p>
                                 </div>
                                 <div className="col-4">

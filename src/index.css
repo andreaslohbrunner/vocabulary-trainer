@@ -1,1 +1,11 @@
 @import url('https://use.fontawesome.com/releases/v6.4.2/css/all.css');
+
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}

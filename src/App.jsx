@@ -21,17 +21,20 @@ class App extends Component {
             countryCodeTwo: 'ES',
             dictionary: listEnglishSpanish,
             filter: '',
+            typeFilter: 'English',
             filteredDictionary: listEnglishSpanish,
             visibleDictionary: listEnglishSpanish,
             currentPage: 1,
             maxPage: 1,
-            amountItems: 10
+            amountItems: 10,
+            lengthFilteredDictionary: listEnglishSpanish.length
         }
         this.saveVocabulary = this.saveVocabulary.bind(this);
         this.reduceLevel = this.reduceLevel.bind(this);
         this.resetLevel = this.resetLevel.bind(this);
         this.deleteVocabulary = this.deleteVocabulary.bind(this);
         this.renumberDictionary = this.renumberDictionary.bind(this);
+        this.changeTypeFilter=this.changeTypeFilter.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
         this.updateFilteredDictionary=this.updateFilteredDictionary.bind(this);
         this.pageNumberDecrease=this.pageNumberDecrease.bind(this);
@@ -120,6 +123,13 @@ class App extends Component {
         return renumberedDictionary;
     }
 
+    changeTypeFilter(event) {
+        console.log(event.target.value);
+        this.setState({
+            typeFilter: event.target.value
+        })
+    }
+
     updateFilter(event) {
         this.setState({
             filter: event.target.value
@@ -134,7 +144,7 @@ class App extends Component {
         } else {
             const regex = new RegExp(expression);
             for (let i=0; i<dictionary.length; i++) {
-                if (regex.test(dictionary[i].English)) {
+                if (regex.test(dictionary[i][this.state.typeFilter])) {
                     newDictionary.push(dictionary[i])
                 }
             }
@@ -175,7 +185,8 @@ class App extends Component {
     getMaxPage(amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
         let amountVocabularies = dictionary.length;
         this.setState({
-            maxPage: Math.ceil(amountVocabularies/amount)
+            maxPage: Math.ceil(amountVocabularies/amount),
+            lengthFilteredDictionary: amountVocabularies
         })
     }
 
@@ -248,6 +259,7 @@ class App extends Component {
                                 onClickResetLevel={this.resetLevel}
                                 onClickDeleteVocabulary={this.deleteVocabulary}
                                 filter={this.state.filter}
+                                onChangeTypeFilter={this.changeTypeFilter}
                                 onChangeFilter={this.updateFilter}
                                 visibleDictionary={this.state.visibleDictionary}
                                 currentPage={this.state.currentPage}
@@ -257,6 +269,7 @@ class App extends Component {
                                 getMaxPage={this.getMaxPage}
                                 adjustAmountItems={this.adjustAmountItems}
                                 adjustVisibleDictionary={this.adjustVisibleDictionary}
+                                lengthFilteredDictionary={this.state.lengthFilteredDictionary}
                             />}
                         />
                     </Route>
