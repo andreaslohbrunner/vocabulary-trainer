@@ -22,11 +22,42 @@ class NavBar extends Component {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div className="navbar-nav">
-                                <NavLink to='/' className="nav-link active" aria-current="page" href="#">Home</NavLink>
-                                <NavLink to='/' className="nav-link" href="#">Choose Languages</NavLink>
-                                <NavLink to='/addvocabulary' className="nav-link" href="#">Add Vocabulary</NavLink>
-                                <NavLink to='/dictionary' className="nav-link" href="#">Dictionary</NavLink>
-                                <NavLink to='/' className="nav-link disabled" aria-disabled="true">Test</NavLink>
+                                <NavLink
+                                    to='/'
+                                    className="nav-link active"
+                                    aria-current="page"
+                                    href="#"
+                                >
+                                    Home
+                                </NavLink>
+                                <NavLink
+                                    to='/'
+                                    className="nav-link"
+                                    href="#"
+                                >
+                                    Choose Languages
+                                </NavLink>
+                                <NavLink
+                                    to='/addvocabulary'
+                                    className="nav-link"
+                                    href="#"
+                                >
+                                    Add Vocabulary
+                                </NavLink>
+                                <NavLink
+                                    to='/dictionary'
+                                    className="nav-link"
+                                    href="#"
+                                >
+                                    Dictionary
+                                </NavLink>
+                                <NavLink
+                                    to='/test'
+                                    className="nav-link"
+                                    href="#"
+                                >
+                                    Test
+                                </NavLink>
                             </div>
                         </div>
                     </div>

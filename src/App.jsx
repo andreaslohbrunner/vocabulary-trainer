@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import SharedLayout from "./pages/SharedLayout";
 import AddVocabulary from "./pages/AddVocabulary";
 import Dictionary from "./pages/Dictionary";
+import Test from "./pages/Test";
 
 class App extends Component {
     constructor(props) {
@@ -270,6 +271,14 @@ class App extends Component {
                                 adjustAmountItems={this.adjustAmountItems}
                                 adjustVisibleDictionary={this.adjustVisibleDictionary}
                                 lengthFilteredDictionary={this.state.lengthFilteredDictionary}
+                            />}
+                        />
+                        <Route
+                            path="test"
+                            element={<Test
+                                languageOne={this.state.languageOne}
+                                languageTwo={this.state.languageTwo}
+                                dictionary={this.state.dictionary}
                             />}
                         />
                     </Route>
