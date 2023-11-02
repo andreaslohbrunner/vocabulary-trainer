@@ -7,7 +7,7 @@ class Test extends Component {
             testDictionaryOrder: [],
             testDictionaryLength: 5,
             testVocabulary: {},
-            numberTests: 1,
+            wordsLeft: 5,
             testNumber: 0,
             result: 'Result',
             resultColor: 'bg-secondary',
@@ -16,10 +16,15 @@ class Test extends Component {
             testedWords: 0,
             correctAnswers: 0,
             score: 0,
+            totalTestedWords: 0,
+            totalCorrectAnswers: 0,
+            totalScore: 0,
             displayTest: '',
-            displayEndscore: ' d-none'
+            displayEndscore: ' d-none',
+            displayNoTestLeft: ' d-none'
         }
         this.getTestDictionaryOrder=this.getTestDictionaryOrder.bind(this);
+        this.getInitialWordsLeft=this.getInitialWordsLeft.bind(this);
         this.resetResult=this.resetResult.bind(this);
         this.resetInterval=this.resetInterval.bind(this);
         this.checkResult=this.checkResult.bind(this);
@@ -42,6 +47,19 @@ class Test extends Component {
         this.setState({
             testDictionaryOrder: shuffledDictionary,
             testVocabulary: shuffledDictionary[this.state.testNumber],
+        })
+        this.getInitialWordsLeft();
+    }
+
+    getInitialWordsLeft() {
+        let newWordsLeft=0;
+        if (this.state.testNumber+this.state.testDictionaryLength <= this.props.dictionary.length) {
+            newWordsLeft=this.state.testDictionaryLength;
+        } else {
+            newWordsLeft=this.props.dictionary.length-this.state.testNumber;
+        }
+        this.setState({
+            wordsLeft: newWordsLeft
         })
     }
 
@@ -82,14 +100,17 @@ class Test extends Component {
         let newTestedWords = this.state.testedWords + 1;
         let newCorrectAnswers = this.state.correctAnswers + 1;
         this.setState({
+            wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
             result: 'Correct!',
             resultColor: 'bg-success',
             testedWords: newTestedWords,
             correctAnswers: newCorrectAnswers,
-            score: Math.round((newCorrectAnswers / newTestedWords) * 100)
+            score: Math.round((newCorrectAnswers / newTestedWords) * 100),
+            totalTestedWords: this.state.totalTestedWords + 1,
+            totalCorrectAnswers: this.state.totalCorrectAnswers + 1
         });
-        if (newTestNumber < this.state.testDictionaryLength * this.state.numberTests) {
+        if (this.state.wordsLeft - 1 > 0) {
             this.getNewWord(newTestNumber);
             this.resetResult('Correct!');
         } else {
@@ -107,7 +128,8 @@ class Test extends Component {
             displayCorrection: '',
             testedWords: newTestedWords,
             correctAnswers: this.state.correctAnswers,
-            score: Math.round((this.state.correctAnswers / newTestedWords) * 100)
+            score: Math.round((this.state.correctAnswers / newTestedWords) * 100),
+            totalTestedWords: this.state.totalTestedWords + 1
         })
     }
 
@@ -124,12 +146,13 @@ class Test extends Component {
         answer.value='';
         button.disabled = false;
         this.setState({
+            wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
             result: 'Result',
             resultColor: 'bg-secondary',
             displayCorrection: ' d-none'
         })
-        if (newTestNumber < this.state.testDictionaryLength * this.state.numberTests) {
+        if (this.state.wordsLeft - 1 > 0) {
             this.getNewWord(newTestNumber);
         } else {
             this.showEndscore();
@@ -143,18 +166,31 @@ class Test extends Component {
         })
     }
 
-    createNextTest() {
+    showNoTestLeft() {
         this.setState({
-            testVocabulary: this.state.testDictionaryOrder[this.state.testNumber],
-            numberTests: this.state.numberTests + 1,
-            result: 'Result',
-            resultColor: 'bg-secondary',
-            testedWords: 0,
-            correctAnswers: 0,
-            score: 0,
-            displayTest: '',
-            displayEndscore: ' d-none'
+            totalScore: Math.round((this.state.totalCorrectAnswers / this.state.totalTestedWords) * 100),
+            displayEndscore: ' d-none',
+            displayNoTestLeft: ''
         })
+    }
+
+    createNextTest() {
+        if (this.state.testNumber === this.props.dictionary.length) {
+            this.showNoTestLeft();
+        } else {
+            this.setState({
+                testVocabulary: this.state.testDictionaryOrder[this.state.testNumber],
+                numberTests: this.state.numberTests + 1,
+                result: 'Result',
+                resultColor: 'bg-secondary',
+                testedWords: 0,
+                correctAnswers: 0,
+                score: 0,
+                displayTest: '',
+                displayEndscore: ' d-none'
+            })
+            this.getInitialWordsLeft();
+        }
     }
 
     render() { 
@@ -198,7 +234,10 @@ class Test extends Component {
                                 </div>
                             </div>
                             <div className={"row" + this.state.displayTest}>
-                                <div className="text-center my-3 col-7">
+                                <div className="ms-3 mt-4 col-3">
+                                    Words left: {this.state.wordsLeft}
+                                </div>
+                                <div className="text-center my-3 col-4">
                                     <button
                                         type="submit"
                                         className="btn btn-primary"
@@ -244,6 +283,11 @@ class Test extends Component {
                                         Go to next Test
                                     </button>
                                 </div>
+                            </div>
+                            <div className={"row m-3" + this.state.displayNoTestLeft}>
+                                No more vocabularies left to test today! Great job!
+                                You had {this.state.totalCorrectAnswers} out of {this.state.totalTestedWords} correct today!
+                                Your score: {this.state.totalScore}%
                             </div>
                         </div>
                     </div>
