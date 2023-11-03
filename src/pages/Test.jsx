@@ -11,6 +11,7 @@ class Test extends Component {
             wordsLeft: 5,
             testNumber: 0,
             testedWordsIds: [],
+            testedWordsIdsTotal: [],
             result: 'Result',
             resultColor: 'bg-secondary',
             intervalSwitcher: '',
@@ -21,6 +22,7 @@ class Test extends Component {
             totalTestedWords: 0,
             totalCorrectAnswers: 0,
             totalScore: 0,
+            titleTestedWords: 'Tested Words',
             displayTest: '',
             displayEndscore: ' d-none',
             displayNoTestLeft: ' d-none'
@@ -105,6 +107,7 @@ class Test extends Component {
             wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
             testedWordsIds: [...this.state.testedWordsIds, this.state.testVocabulary.id],
+            testedWordsIdsTotal: [...this.state.testedWordsIdsTotal, this.state.testVocabulary.id],
             result: 'Correct!',
             resultColor: 'bg-success',
             testedWords: newTestedWords,
@@ -157,6 +160,7 @@ class Test extends Component {
             wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
             testedWordsIds: [...this.state.testedWordsIds, this.state.testVocabulary.id],
+            testedWordsIdsTotal: [...this.state.testedWordsIdsTotal, this.state.testVocabulary.id],
             result: 'Result',
             resultColor: 'bg-secondary',
             displayCorrection: ' d-none'
@@ -183,6 +187,7 @@ class Test extends Component {
     showNoTestLeft() {
         this.setState({
             totalScore: Math.round((this.state.totalCorrectAnswers / this.state.totalTestedWords) * 100),
+            titleTestedWords: 'All tested Words today',
             displayEndscore: ' d-none',
             displayNoTestLeft: ''
         })
@@ -209,7 +214,13 @@ class Test extends Component {
     }
 
     render() { 
-        const testedDictionary = this.state.testedWordsIds.map(id => {
+        let wordsToRender=[]
+        if (this.state.titleTestedWords === 'Tested Words') {
+            wordsToRender=[...this.state.testedWordsIds]
+        } else {
+            wordsToRender=[...this.state.testedWordsIdsTotal]
+        }
+        const testedDictionary = wordsToRender.map(id => {
             let iconClass = '';
             switch (this.props.dictionary[id-1].LastTestCorrectAnswer) {
                 case 'yes':
@@ -342,7 +353,7 @@ class Test extends Component {
                     <div className="col-lg-6">
                         <div className="card">
                             <div className="card-header">
-                                <h3>Tested Words</h3>
+                                <h3>{this.state.titleTestedWords}</h3>
                             </div>
                             <table className={"table table-striped table-hover w-auto"}>
                                 <thead>
