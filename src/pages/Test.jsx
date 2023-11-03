@@ -1,4 +1,5 @@
 import { Component} from "react";
+import RowDictionaryTestedWords from "../components/content/row-dictionary-tested-words";
 
 class Test extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class Test extends Component {
             testVocabulary: {},
             wordsLeft: 5,
             testNumber: 0,
+            testedWordsIds: [],
             result: 'Result',
             resultColor: 'bg-secondary',
             intervalSwitcher: '',
@@ -102,6 +104,7 @@ class Test extends Component {
         this.setState({
             wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
+            testedWordsIds: [...this.state.testedWordsIds, this.state.testVocabulary.id],
             result: 'Correct!',
             resultColor: 'bg-success',
             testedWords: newTestedWords,
@@ -110,6 +113,11 @@ class Test extends Component {
             totalTestedWords: this.state.totalTestedWords + 1,
             totalCorrectAnswers: this.state.totalCorrectAnswers + 1
         });
+        this.props.updateEntryDictionary(
+            this.state.testVocabulary.id,
+            this.state.testVocabulary.MemoryLevel + 1,
+            'yes'
+        );
         if (this.state.wordsLeft - 1 > 0) {
             this.getNewWord(newTestNumber);
             this.resetResult('Correct!');
@@ -148,10 +156,16 @@ class Test extends Component {
         this.setState({
             wordsLeft: this.state.wordsLeft - 1,
             testNumber: newTestNumber,
+            testedWordsIds: [...this.state.testedWordsIds, this.state.testVocabulary.id],
             result: 'Result',
             resultColor: 'bg-secondary',
             displayCorrection: ' d-none'
         })
+        this.props.updateEntryDictionary(
+            this.state.testVocabulary.id,
+            this.state.testVocabulary.MemoryLevel - 1,
+            'no'
+        );
         if (this.state.wordsLeft - 1 > 0) {
             this.getNewWord(newTestNumber);
         } else {
@@ -181,6 +195,7 @@ class Test extends Component {
             this.setState({
                 testVocabulary: this.state.testDictionaryOrder[this.state.testNumber],
                 numberTests: this.state.numberTests + 1,
+                testedWordsIds: [],
                 result: 'Result',
                 resultColor: 'bg-secondary',
                 testedWords: 0,
@@ -194,16 +209,49 @@ class Test extends Component {
     }
 
     render() { 
+        const testedDictionary = this.state.testedWordsIds.map(id => {
+            let iconClass = '';
+            switch (this.props.dictionary[id-1].LastTestCorrectAnswer) {
+                case 'yes':
+                    iconClass = 'fa-check';
+                    break;
+                case 'no':
+                    iconClass = 'fa-xmark';
+                    break;
+                default:
+                    iconClass = 'fa-question';
+            }
+            return (
+                <RowDictionaryTestedWords
+                    rowId={id}
+                    rowLanguageOne={this.props.dictionary[id-1].English}
+                    rowLanguageTwo={this.props.dictionary[id-1].Spanish}
+                    memoryLevel={this.props.dictionary[id-1].MemoryLevel}
+                    correctAnswer={iconClass}
+                    key={id}
+                />
+            )
+        })
+        /*
+        const adjustedTestedDictionary = this.props.dictionary.map(item => {
+            return (
+                <RowDictionaryTestedWords
+                    rowId={item.id}
+                    rowLanguageOne={item.English}
+                    rowLanguageTwo={item.Spanish}
+                    memoryLevel={item.MemoryLevel}
+                    key={item.id}
+                />
+            )
+        })
+        */
         return (
             <div className="test container">
                 <div className="row justify-content-center my-5">
-                    <div className="col-lg-12">
+                    <div className="col-lg-6 mb-4">
                         <div className="card">
                             <div className="card-header">
                                 <h3>Vocabulary Test</h3>
-                            </div>
-                            <div className={"test-options row mt-3 mx-2" + this.state.displayTest}>
-
                             </div>
                             <table className={"table table-striped table-hover w-auto" + this.state.displayTest}>
                                 <thead>
@@ -289,6 +337,26 @@ class Test extends Component {
                                 You had {this.state.totalCorrectAnswers} out of {this.state.totalTestedWords} correct today!
                                 Your score: {this.state.totalScore}%
                             </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-6">
+                        <div className="card">
+                            <div className="card-header">
+                                <h3>Tested Words</h3>
+                            </div>
+                            <table className={"table table-striped table-hover w-auto"}>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">{this.props.languageOne}</th>
+                                        <th scope="col">{this.props.languageTwo}</th>
+                                        <th scope="col">Level</th>
+                                        <th scope="col">Correct Answer</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="table-group-divider">
+                                    {testedDictionary}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

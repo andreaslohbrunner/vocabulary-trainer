@@ -43,6 +43,7 @@ class App extends Component {
         this.getMaxPage=this.getMaxPage.bind(this);
         this.adjustAmountItems=this.adjustAmountItems.bind(this);
         this.adjustVisibleDictionary=this.adjustVisibleDictionary.bind(this);
+        this.updateEntryDictionary=this.updateEntryDictionary.bind(this);
     }
 
     saveVocabulary() {
@@ -227,6 +228,25 @@ class App extends Component {
         //console.log(reducedDictionary);
     }
 
+    updateEntryDictionary(i, newLevel, newCorrectAnswer) {
+        if (newLevel<=0) newLevel = 1;
+        this.setState({
+            dictionary: this.state.dictionary.map(item => {
+                if (item.id === i) {
+                    return {
+                        id: item.id,
+                        English: item[this.state.languageOne],
+                        Spanish: item[this.state.languageTwo],
+                        MemoryLevel: newLevel,
+                        LastTestCorrectAnswer: newCorrectAnswer
+                    };
+                } else {
+                    return item;
+                }
+            })
+        })
+    }
+
     render() { 
         return (
             <BrowserRouter>
@@ -279,6 +299,7 @@ class App extends Component {
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 dictionary={this.state.dictionary}
+                                updateEntryDictionary={this.updateEntryDictionary}
                             />}
                         />
                     </Route>
