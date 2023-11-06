@@ -1,5 +1,21 @@
 import { Component} from "react";
+
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend
+} from 'chart.js';
+
+import { Doughnut } from "react-chartjs-2";
+
 import RowDictionaryTestedWords from "../components/content/row-dictionary-tested-words";
+
+ChartJS.register(
+    ArcElement,
+    Tooltip,
+    Legend
+);
 
 class Test extends Component {
     constructor(props) {
@@ -22,10 +38,10 @@ class Test extends Component {
             totalTestedWords: 0,
             totalCorrectAnswers: 0,
             totalScore: 0,
-            titleTestedWords: 'Tested Words',
             displayTest: '',
             displayEndscore: ' d-none',
-            displayNoTestLeft: ' d-none'
+            displayNoTestLeft: ' d-none',
+            flagTotalEndScore: false
         }
         this.getTestDictionaryOrder=this.getTestDictionaryOrder.bind(this);
         this.getInitialWordsLeft=this.getInitialWordsLeft.bind(this);
@@ -187,9 +203,7 @@ class Test extends Component {
     showNoTestLeft() {
         this.setState({
             totalScore: Math.round((this.state.totalCorrectAnswers / this.state.totalTestedWords) * 100),
-            titleTestedWords: 'All tested Words today',
-            displayEndscore: ' d-none',
-            displayNoTestLeft: ''
+            flagTotalEndScore: true
         })
     }
 
@@ -214,12 +228,31 @@ class Test extends Component {
     }
 
     render() { 
-        let wordsToRender=[]
-        if (this.state.titleTestedWords === 'Tested Words') {
-            wordsToRender=[...this.state.testedWordsIds]
+        let wordsToRender=[];
+        let amountCorrectAnswers=0;
+        let amountTestedWords=0;
+        let scoreToRender=0;
+        let showElementsCurrentEndScore = '';
+        let showElementsTotalEndScore = ' d-none';
+        let titleTestedWords = 'Tested Words';
+        if (this.state.flagTotalEndScore) {
+            wordsToRender=[...this.state.testedWordsIdsTotal];
+            amountCorrectAnswers=this.state.totalCorrectAnswers;
+            amountTestedWords=this.state.totalTestedWords;
+            scoreToRender=this.state.totalScore;
+            showElementsCurrentEndScore = ' d-none';
+            showElementsTotalEndScore = '';
+            titleTestedWords = 'All tested Words today';
         } else {
-            wordsToRender=[...this.state.testedWordsIdsTotal]
+            wordsToRender=[...this.state.testedWordsIds]
+            amountCorrectAnswers=this.state.correctAnswers;
+            amountTestedWords=this.state.testedWords;
+            scoreToRender=this.state.score;
+            showElementsCurrentEndScore = '';
+            showElementsTotalEndScore = ' d-none';
+            titleTestedWords = 'Tested Words';
         }
+
         const testedDictionary = wordsToRender.map(id => {
             let iconClass = '';
             switch (this.props.dictionary[id-1].LastTestCorrectAnswer) {
@@ -243,19 +276,38 @@ class Test extends Component {
                 />
             )
         })
-        /*
-        const adjustedTestedDictionary = this.props.dictionary.map(item => {
-            return (
-                <RowDictionaryTestedWords
-                    rowId={item.id}
-                    rowLanguageOne={item.English}
-                    rowLanguageTwo={item.Spanish}
-                    memoryLevel={item.MemoryLevel}
-                    key={item.id}
-                />
-            )
-        })
-        */
+        
+        const dataChartTestedWords = {
+            labels: ['Correct', 'Not correct'],
+            datasets: [{
+                label: 'Your Score',
+                data: [
+                    amountCorrectAnswers,
+                    amountTestedWords - amountCorrectAnswers
+                ],
+                backgroundColor: ['#14A44D', '#DC4C64'],
+                borderColor: ['white', 'white']
+            }]
+        }
+
+        const optionsChartTestedWords = {}
+
+        const doughnutTextCenter = {
+            id: 'textCenter',
+            beforeDatasetsDraw(chart, args, pluginOptions) {
+                const {ctx, data} = chart;
+
+                const value = Math.round((data.datasets[0].data[0]/(data.datasets[0].data[0]+data.datasets[0].data[1]))*100);
+
+                ctx.save();
+                ctx.font = 'bolder 40px sans-serif';
+                ctx.fillStyle = '#14A44D';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(value + '%', chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);
+            }
+        }
+
         return (
             <div className="test container">
                 <div className="row justify-content-center my-5">
@@ -330,30 +382,46 @@ class Test extends Component {
                                 </div>
                             </div>
                             <div className={"row m-3" + this.state.displayEndscore}>
-                                <div className="col-7">
-                                    You have {this.state.correctAnswers} out of {this.state.testedWords} correct!
+                                <div className="col-8">
+                                    <Doughnut
+                                        data= {dataChartTestedWords}
+                                        options={optionsChartTestedWords}
+                                        plugins={[doughnutTextCenter]}
+                                    ></Doughnut>
                                 </div>
-                                <div className="col-5">
+                                <div className={"col-4"}>
+                                    <div className={"mb-5" + showElementsTotalEndScore}>
+                                        No more vocabularies left to test today! Great job!
+                                        These are your final results:
+                                    </div>
+                                    <p className="text-center">
+                                        You have <br/>
+                                        <span className="fw-bold">
+                                            {amountCorrectAnswers} out of {amountTestedWords} <br/>
+                                        </span>
+                                        correct!
+                                    </p>
+                                    <h5 className="mt-5 text-center">
+                                        Your Score: <br/>
+                                        <span className="fw-bold">
+                                            {scoreToRender}%
+                                        </span>
+                                    </h5>
                                     <button
                                         type="submit"
-                                        className="btn btn-primary text-white"
+                                        className={"btn btn-primary text-white mt-5"+ showElementsCurrentEndScore}
                                         onClick={this.createNextTest}
                                     >
                                         Go to next Test
                                     </button>
                                 </div>
                             </div>
-                            <div className={"row m-3" + this.state.displayNoTestLeft}>
-                                No more vocabularies left to test today! Great job!
-                                You had {this.state.totalCorrectAnswers} out of {this.state.totalTestedWords} correct today!
-                                Your score: {this.state.totalScore}%
-                            </div>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="card">
                             <div className="card-header">
-                                <h3>{this.state.titleTestedWords}</h3>
+                                <h3>{titleTestedWords}</h3>
                             </div>
                             <table className={"table table-striped table-hover w-auto"}>
                                 <thead>
