@@ -6,12 +6,13 @@ class Dictionary extends Component {
 
     componentDidMount() {
         this.props.getMaxPage();
-        this.props.adjustVisibleDictionary();
+        this.props.updateFilteredDictionary();
     }
 
     render() {
         //const filteredDictionary = this.filterDictionary();
         const tableDictionary = this.props.visibleDictionary.map(item => {
+            //console.log(item)
             return (
                 <RowDictionaryAdvanced
                     rowId={item.id}

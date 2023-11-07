@@ -64,64 +64,88 @@ class App extends Component {
     }
 
     reduceLevel() {
-        let updatedDictionary = [...this.state.visibleDictionary];
-        //console.log(updatedDictionary);
-        //console.log(this.state.visibleDictionary);
-        for (let i=0; i<updatedDictionary.length; i++) {
-            let checkBox = document.getElementById("checkbox-" + updatedDictionary[i].id);
-            //console.log(updatedDictionary[i].id);
-            //console.log(checkBox);
-            if (checkBox.checked) {
-                if (updatedDictionary[i].MemoryLevel>1) {
-                    updatedDictionary[i].MemoryLevel--;
+        let updatedDictionary = this.state.dictionary.map(vocabulary => {
+            let checkBox = document.getElementById("checkbox-" + vocabulary.id);
+            if (checkBox) {
+                if (checkBox.checked && vocabulary.MemoryLevel > 1) {
+                    return {
+                        ...vocabulary,
+                        MemoryLevel: vocabulary.MemoryLevel - 1
+                    }
+                } else {
+                    return vocabulary;
                 }
+            } else {
+                return vocabulary;
             }
-        }
-        this.setState({
-            visibleDictionary: updatedDictionary
         })
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary);
+        this.setState({
+            dictionary: updatedDictionary
+        })
+        //console.log("this.state.dictionary:");
+        //console.log(this.state.dictionary);
+        //console.log(updatedDictionary);
     }
 
     resetLevel() {
-        let updatedDictionary = [...this.state.visibleDictionary];
-        for (let i=0; i<updatedDictionary.length; i++) {
-            let checkBox = document.getElementById("checkbox-" + updatedDictionary[i].id);
-            if (checkBox.checked) {
-                updatedDictionary[i].MemoryLevel=1;
+        let updatedDictionary = this.state.dictionary.map(vocabulary => {
+            let checkBox = document.getElementById("checkbox-" + vocabulary.id);
+            if (checkBox) {
+                if (checkBox.checked && vocabulary.MemoryLevel > 1) {
+                    return {
+                        ...vocabulary,
+                        MemoryLevel: 1
+                    }
+                } else {
+                    return vocabulary;
+                }
+            } else {
+                return vocabulary;
             }
-        }
+        })
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary);
         this.setState({
-            visibleDictionary: updatedDictionary
+            dictionary: updatedDictionary
         })
     }
 
     deleteVocabulary() {
         let updatedDictionary = [];
+        //console.log("this.state.dictionary:");
+        //console.log(this.state.dictionary);
         for (let i=1; i<=this.state.dictionary.length; i++) {
             let checkBox = document.getElementById("checkbox-" + i);
             if (checkBox) {
-                //console.log(checkBox);
                 if (!checkBox.checked) {
-                    updatedDictionary.push(this.state.dictionary[i-1]);
+                    updatedDictionary = [...updatedDictionary, this.state.dictionary[i-1]];
                 } else {
                     checkBox.checked = false;
                 }
             } else {
-                updatedDictionary.push(this.state.dictionary[i-1]);
+                updatedDictionary = [...updatedDictionary, this.state.dictionary[i-1]];
             }
         }
+        //console.log("updatedDictionary:");
+        //console.log(updatedDictionary);
         let renumberedDictionary = this.renumberDictionary(updatedDictionary);
-        this.updateVisibleDictionary(this.state.filter, renumberedDictionary);
+        //console.log("renumberedDictionary:");
+        //console.log(renumberedDictionary);
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, renumberedDictionary);
         this.setState({
             dictionary: renumberedDictionary
         })
     }
 
     renumberDictionary(dictionary) {
-        let renumberedDictionary = [...dictionary];
-        for (let i=0; i<dictionary.length; i++) {
-            renumberedDictionary[i].id=i+1;
-        }
+        //console.log("renumber input:")
+        //console.log(dictionary);
+        let renumberedDictionary = dictionary.map((vocabulary, index) => {
+            return {
+                ...vocabulary,
+                id: index + 1
+            }
+        });
         return renumberedDictionary;
     }
 
@@ -136,10 +160,10 @@ class App extends Component {
         this.setState({
             filter: event.target.value
         })
-        this.updateFilteredDictionary(event.target.value);
+        this.updateFilteredDictionary(event.target.value, 1);
     }
 
-    updateFilteredDictionary(expression, dictionary=this.state.dictionary) {
+    updateFilteredDictionary(expression='', page=this.state.currentPage, dictionary=this.state.dictionary) {
         let newDictionary = [];
         if(expression === '') {
             newDictionary = [...dictionary];
@@ -147,7 +171,8 @@ class App extends Component {
             const regex = new RegExp(expression);
             for (let i=0; i<dictionary.length; i++) {
                 if (regex.test(dictionary[i][this.state.typeFilter])) {
-                    newDictionary.push(dictionary[i])
+                    //newDictionary.push(dictionary[i])
+                    newDictionary=[...newDictionary, dictionary[i]];
                 }
             }
         };
@@ -155,7 +180,7 @@ class App extends Component {
             filteredDictionary: newDictionary,
             currentPage: 1
         })
-        this.adjustVisibleDictionary(1, this.state.amountItems, newDictionary);
+        this.adjustVisibleDictionary(page, this.state.amountItems, newDictionary);
         this.getMaxPage(this.state.amountItems, newDictionary);
         //console.log(newDictionary);
     }
@@ -196,35 +221,36 @@ class App extends Component {
         let amount = 0;
         if (event.target.value==="all") {
             amount = this.state.filteredDictionary.length;
-            this.setState({
-                currentPage: 1,
-                amountItems: amount
-            })
         } else {
             amount = event.target.value;
-            this.setState({
-                currentPage: 1,
-                amountItems: amount
-            })
         }
+        this.setState({
+            currentPage: 1,
+            amountItems: amount
+        })
         this.adjustVisibleDictionary(1, amount);
         this.getMaxPage(amount);
     }
 
     adjustVisibleDictionary(page=this.state.currentPage, amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
-        let reducedDictionary = [];
+        //console.log("input adjustVisibleDictionary:");
         //console.log(page);
+        //console.log(amount);
+        //console.log(dictionary);
+        let reducedDictionary = [];
         let startPoint = (page-1)*this.state.amountItems;
         //console.log("startpoint: " + startPoint);
         let endPoint = dictionary.length - startPoint;
         endPoint > amount ?  endPoint = startPoint + amount : endPoint = startPoint + endPoint
         //console.log("endpoint: " + endPoint);
         for (let i=startPoint; i<endPoint; i++) {
-            reducedDictionary.push(dictionary[i]);
+            //reducedDictionary.push(dictionary[i]);
+            reducedDictionary = [...reducedDictionary, dictionary[i]];
         }
         this.setState({
             visibleDictionary: reducedDictionary
         })
+        //console.log("reducedDictionary:");
         //console.log(reducedDictionary);
     }
 
@@ -282,6 +308,7 @@ class App extends Component {
                                 filter={this.state.filter}
                                 onChangeTypeFilter={this.changeTypeFilter}
                                 onChangeFilter={this.updateFilter}
+                                updateFilteredDictionary={this.updateFilteredDictionary}
                                 visibleDictionary={this.state.visibleDictionary}
                                 currentPage={this.state.currentPage}
                                 maxPage={this.state.maxPage}
