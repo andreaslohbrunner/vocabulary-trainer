@@ -31,7 +31,7 @@ class NavBar extends Component {
                                     Home
                                 </NavLink>
                                 <NavLink
-                                    to='/'
+                                    to='/chooselanguages'
                                     className="nav-link"
                                     href="#"
                                 >

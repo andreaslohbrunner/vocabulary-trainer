@@ -1,13 +1,12 @@
 import { Component } from "react";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-//import NavBar from "./components/navbar";
-//import ChosenLanguages from "./components/chosen-languages";
-//import AddVocabularyContent from "./components/content/add-vocabulary";
+import { listLanguages } from "./components/content/list-of-languages";
 import { listEnglishSpanish } from "./components/content/lists-of-vocabularies";
 
 import Home from "./pages/Home";
 import SharedLayout from "./pages/SharedLayout";
+import ChooseLanguages from "./pages/ChooseLanguages";
 import AddVocabulary from "./pages/AddVocabulary";
 import Dictionary from "./pages/Dictionary";
 import Test from "./pages/Test";
@@ -20,6 +19,7 @@ class App extends Component {
             languageTwo: 'Spanish',
             countryCodeOne: 'US',
             countryCodeTwo: 'ES',
+            arrLanguages: listLanguages,
             dictionary: listEnglishSpanish,
             filter: '',
             typeFilter: 'English',
@@ -287,6 +287,15 @@ class App extends Component {
                         />}
                     >
                         <Route index element={<Home />} />
+                        <Route
+                            path="chooselanguages"
+                            element={<ChooseLanguages 
+                                languageOne={this.state.languageOne}
+                                languageTwo={this.state.languageTwo}
+                                arrLanguages={this.state.arrLanguages}
+                                changeLanguage={this.changeLanguage}
+                            />}
+                        />
                         <Route
                             path="addvocabulary"
                             element={<AddVocabulary 
