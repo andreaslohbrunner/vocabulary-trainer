@@ -1,99 +1,99 @@
 export const listEnglishSpanish = [
     {
         id: 1,
-        English: 'hello',
-        Spanish: 'hola',
+        vocabularyLanguageOne: 'hello',
+        vocabularyLanguageTwo: 'hola',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 2,
-        English: 'good bye',
-        Spanish: 'adios',
+        vocabularyLanguageOne: 'good bye',
+        vocabularyLanguageTwo: 'adios',
         MemoryLevel: 3,
         LastTestCorrectAnswer: ''
     },
     {
         id: 3,
-        English: 'yes',
-        Spanish: 'si',
+        vocabularyLanguageOne: 'yes',
+        vocabularyLanguageTwo: 'si',
         MemoryLevel: 5,
         LastTestCorrectAnswer: ''
     },
     {
         id: 4,
-        English: 'no',
-        Spanish: 'no',
+        vocabularyLanguageOne: 'no',
+        vocabularyLanguageTwo: 'no',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 5,
-        English: 'thank you',
-        Spanish: 'gracias',
+        vocabularyLanguageOne: 'thank you',
+        vocabularyLanguageTwo: 'gracias',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 6,
-        English: 'one',
-        Spanish: 'uno',
+        vocabularyLanguageOne: 'one',
+        vocabularyLanguageTwo: 'uno',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 7,
-        English: 'two',
-        Spanish: 'dos',
+        vocabularyLanguageOne: 'two',
+        vocabularyLanguageTwo: 'dos',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 8,
-        English: 'three',
-        Spanish: 'tres',
+        vocabularyLanguageOne: 'three',
+        vocabularyLanguageTwo: 'tres',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 9,
-        English: 'food',
-        Spanish: 'alimento',
+        vocabularyLanguageOne: 'food',
+        vocabularyLanguageTwo: 'alimento',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 10,
-        English: 'beer',
-        Spanish: 'cerveza',
+        vocabularyLanguageOne: 'beer',
+        vocabularyLanguageTwo: 'cerveza',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 11,
-        English: 'water',
-        Spanish: 'agua',
+        vocabularyLanguageOne: 'water',
+        vocabularyLanguageTwo: 'agua',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 12,
-        English: 'train',
-        Spanish: 'tren',
+        vocabularyLanguageOne: 'train',
+        vocabularyLanguageTwo: 'tren',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 13,
-        English: 'car',
-        Spanish: 'auto',
+        vocabularyLanguageOne: 'car',
+        vocabularyLanguageTwo: 'auto',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     },
     {
         id: 14,
-        English: 'airport',
-        Spanish: 'aeropuerto',
+        vocabularyLanguageOne: 'airport',
+        vocabularyLanguageTwo: 'aeropuerto',
         MemoryLevel: 1,
         LastTestCorrectAnswer: ''
     }

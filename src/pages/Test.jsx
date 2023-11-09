@@ -107,7 +107,7 @@ class Test extends Component {
         this.resetInterval();
         let answer=document.getElementById("test-answer")
         console.log(answer.value);
-        if (answer.value === this.state.testVocabulary[this.props.languageTwo]) {
+        if (answer.value === this.state.testVocabulary.vocabularyLanguageTwo) {
             this.getCorrectAnswer();
             answer.value='';
         } else {
@@ -194,6 +194,7 @@ class Test extends Component {
     }
 
     showEndscore() {
+        console.log(this.props.dictionary);
         this.setState({
             displayTest: ' d-none',
             displayEndscore: ''
@@ -268,8 +269,8 @@ class Test extends Component {
             return (
                 <RowDictionaryTestedWords
                     rowId={id}
-                    rowLanguageOne={this.props.dictionary[id-1].English}
-                    rowLanguageTwo={this.props.dictionary[id-1].Spanish}
+                    rowLanguageOne={this.props.dictionary[id-1].vocabularyLanguageOne}
+                    rowLanguageTwo={this.props.dictionary[id-1].vocabularyLanguageTwo}
                     memoryLevel={this.props.dictionary[id-1].MemoryLevel}
                     correctAnswer={iconClass}
                     key={id}
@@ -334,7 +335,7 @@ class Test extends Component {
                             </table>
                             <div className={"test-question row mt-3 mx-2" + this.state.displayTest}>
                                 <h5 className="mb-4 text-center">Please translate into {this.props.languageTwo}:</h5>
-                                <h3 className="text-center mb-3">{this.state.testVocabulary[this.props.languageOne]}</h3>
+                                <h3 className="text-center mb-3">{this.state.testVocabulary.vocabularyLanguageOne}</h3>
                                 <div>
                                     <input
                                         type="text"
@@ -366,7 +367,7 @@ class Test extends Component {
                                 <div className="text-center col-7 mt-2">
                                     <i>Correct Answer: 
                                         <i className="fw-bold">
-                                            {' ' + this.state.testVocabulary[this.props.languageTwo]}
+                                            {' ' + this.state.testVocabulary.vocabularyLanguageTwo}
                                         </i>
                                     </i>
                                 </div>

@@ -15,6 +15,15 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            databaseDictionaries: [
+                {
+                    languageOne: 'English (US)',
+                    languageTwo: 'Spanish',
+                },
+                {
+                    dictionary: listEnglishSpanish
+                }
+            ],
             languageOne: 'English',
             languageTwo: 'Spanish',
             countryCodeOne: 'US',
@@ -22,7 +31,7 @@ class App extends Component {
             arrLanguages: listLanguages,
             dictionary: listEnglishSpanish,
             filter: '',
-            typeFilter: 'English',
+            typeFilter: 'vocabularyLanguageOne',
             filteredDictionary: listEnglishSpanish,
             visibleDictionary: listEnglishSpanish,
             currentPage: 1,
@@ -65,8 +74,8 @@ class App extends Component {
                 ...this.state.dictionary,
                 {
                     id: maxId + 1,
-                    English: inputLanguageOne.value,
-                    Spanish: inputLanguageTwo.value,
+                    vocabularyLanguageOne: inputLanguageOne.value,
+                    vocabularyLanguageTwo: inputLanguageTwo.value,
                     MemoryLevel: 1
                 }
             ]
@@ -93,9 +102,6 @@ class App extends Component {
         this.setState({
             dictionary: updatedDictionary
         })
-        //console.log("this.state.dictionary:");
-        //console.log(this.state.dictionary);
-        //console.log(updatedDictionary);
     }
 
     resetLevel() {
@@ -263,17 +269,17 @@ class App extends Component {
     updateEntryDictionary(i, newLevel, newCorrectAnswer) {
         if (newLevel<=0) newLevel = 1;
         this.setState({
-            dictionary: this.state.dictionary.map(item => {
-                if (item.id === i) {
+            dictionary: this.state.dictionary.map(vocabulary => {
+                if (vocabulary.id === i) {
                     return {
-                        id: item.id,
-                        English: item[this.state.languageOne],
-                        Spanish: item[this.state.languageTwo],
+                        id: vocabulary.id,
+                        vocabularyLanguageOne: vocabulary.vocabularyLanguageOne,
+                        vocabularyLanguageTwo: vocabulary.vocabularyLanguageTwo,
                         MemoryLevel: newLevel,
                         LastTestCorrectAnswer: newCorrectAnswer
                     };
                 } else {
-                    return item;
+                    return vocabulary;
                 }
             })
         })
@@ -296,6 +302,7 @@ class App extends Component {
                         <Route
                             path="chooselanguages"
                             element={<ChooseLanguages 
+                                databaseDictionaries={this.state.databaseDictionaries}
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 arrLanguages={this.state.arrLanguages}

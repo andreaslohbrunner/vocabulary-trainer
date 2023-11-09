@@ -11,15 +11,15 @@ class Dictionary extends Component {
 
     render() {
         //const filteredDictionary = this.filterDictionary();
-        const tableDictionary = this.props.visibleDictionary.map(item => {
-            //console.log(item)
+        const tableDictionary = this.props.visibleDictionary.map(vocabulary => {
+            //console.log(vocabulary)
             return (
                 <RowDictionaryAdvanced
-                    rowId={item.id}
-                    rowLanguageOne={item.English}
-                    rowLanguageTwo={item.Spanish}
-                    memoryLevel={item.MemoryLevel}
-                    key={item.id}
+                    rowId={vocabulary.id}
+                    rowLanguageOne={vocabulary.vocabularyLanguageOne}
+                    rowLanguageTwo={vocabulary.vocabularyLanguageTwo}
+                    memoryLevel={vocabulary.MemoryLevel}
+                    key={vocabulary.id}
                 />
             )
         })
@@ -68,9 +68,9 @@ class Dictionary extends Component {
                                         id="autoSizingSelect"
                                         onChange={this.props.onChangeTypeFilter}
                                     >
-                                        <option value={this.props.languageOne}>Choose...</option>
-                                        <option value={this.props.languageOne}>{this.props.languageOne}</option>
-                                        <option value={this.props.languageTwo}>{this.props.languageTwo}</option>
+                                        <option value='vocabularyLanguageOne'>Choose...</option>
+                                        <option value='vocabularyLanguageOne'>{this.props.languageOne}</option>
+                                        <option value='vocabularyLanguageTwo'>{this.props.languageTwo}</option>
                                         <option value="MemoryLevel">Level</option>
                                     </select>
                                 </div>

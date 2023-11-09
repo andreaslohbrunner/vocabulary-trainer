@@ -32,7 +32,7 @@ class ChooseLanguages extends Component {
         this.confirmLanguage=this.confirmLanguage.bind(this);
         this.cancel=this.cancel.bind(this);
         this.changeStyleLanguageCards=this.changeStyleLanguageCards.bind(this);
-        this.firstLanguage=this.firstLanguage.bind(this);
+        this.checkDictionaryAvailability=this.checkDictionaryAvailability.bind(this);
     }
 
     changeLanguage() {
@@ -100,6 +100,7 @@ class ChooseLanguages extends Component {
         } else {
             this.props.updateChosenLanguages(this.state.checkedLanguageIdOne, this.state.checkedLanguageIdTwo);
             this.changeStyleLanguageCards();
+            this.checkDictionaryAvailability();
             this.setState({
                 disableButton: true,
                 showChangeLanguage: '',
@@ -147,13 +148,8 @@ class ChooseLanguages extends Component {
         }
     }
 
-    firstLanguage() {
-        console.log("hallo");
-        for (let i=0; i<this.props.arrLanguages.length; i++) {
-            let checkBoxId="checkbox-" + this.props.arrLanguages[i].id;
-            let checkBox = document.getElementById(checkBoxId);
-            console.log(checkBox);
-        }
+    checkDictionaryAvailability() {
+        console.log(this.props.databaseDictionaries);
     }
 
     render() {

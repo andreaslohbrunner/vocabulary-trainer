@@ -36,13 +36,13 @@ class AddVocabularyContent extends Component {
     }
 
     render() { 
-        const tableDictionary = this.props.dictionary.map(item => {
+        const tableDictionary = this.props.dictionary.map(vocabulary => {
             return (
                 <RowDictionarySimple
-                    rowId={item.id}
-                    rowLanguageOne={item.English}
-                    rowLanguageTwo={item.Spanish}
-                    key={item.id}
+                    rowId={vocabulary.id}
+                    rowLanguageOne={vocabulary.vocabularyLanguageOne}
+                    rowLanguageTwo={vocabulary.vocabularyLanguageTwo}
+                    key={vocabulary.id}
                 />
             )
         })
