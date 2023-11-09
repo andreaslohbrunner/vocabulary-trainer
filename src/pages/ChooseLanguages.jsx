@@ -16,6 +16,7 @@ class ChooseLanguages extends Component {
             checkedCheckBox: '',
             checkedLanguageIdOne: 0,
             checkedLanguageIdTwo: 0,
+            baseStyleCardLanguage: 'language-card card m-3',
             borderStyleCardLanguage: [
                 'border',
                 'border-5',
@@ -30,6 +31,7 @@ class ChooseLanguages extends Component {
         this.chooseLanguage=this.chooseLanguage.bind(this);
         this.confirmLanguage=this.confirmLanguage.bind(this);
         this.cancel=this.cancel.bind(this);
+        this.changeStyleLanguageCards=this.changeStyleLanguageCards.bind(this);
         this.firstLanguage=this.firstLanguage.bind(this);
     }
 
@@ -90,15 +92,25 @@ class ChooseLanguages extends Component {
         } else if (this.state.checkedLanguageIdTwo === 0) {
             currentLanguageCard.classList.add(this.state.borderColorCardLanguage[1]);
             this.setState({
-                textDisplay: 'Chosen Languages: ',
+                textDisplay: 'Press "Ok" to confirm chosen languages',
                 checkedCheckBox: '',
                 checkedLanguageIdTwo: currentCheckBox.value
             })
         //define actions when both languages are selected
         } else {
-            console.log("both language Ids:");
-            console.log(this.state.checkedLanguageIdOne);
-            console.log(this.state.checkedLanguageIdTwo);
+            this.props.updateChosenLanguages(this.state.checkedLanguageIdOne, this.state.checkedLanguageIdTwo);
+            this.changeStyleLanguageCards();
+            this.setState({
+                disableButton: true,
+                showChangeLanguage: '',
+                showSelectOptions: ' d-none',
+                textDisplay: 'Chosen Languages: '
+                    + this.props.arrLanguages[this.state.checkedLanguageIdOne-1].Language
+                    + ' - ' + this.props.arrLanguages[this.state.checkedLanguageIdTwo-1].Language,
+                checkedCheckBox: '',
+                checkedLanguageIdOne: 0,
+                checkedLanguageIdTwo: 0
+            })
         }
     }
 
@@ -114,6 +126,25 @@ class ChooseLanguages extends Component {
             textDisplay: 'Chosen Languages: ' + this.props.languageOne + ' - ' + this.props.languageTwo,
             checkedCheckBox: ''
         })
+    }
+
+    changeStyleLanguageCards() {
+        let arrCards = document.getElementsByClassName('language-card');
+        for (let i=0; i < arrCards.length; i++) {
+            for (let j=0; j < this.state.borderStyleCardLanguage.length; j++) {
+                if (arrCards[i].classList.contains(this.state.borderStyleCardLanguage[j])) {
+                    //console.log(this.state.borderStyleCardLanguage[j]);
+                    arrCards[i].classList.remove(this.state.borderStyleCardLanguage[j]);
+                }
+            }
+            for (let j=0; j < this.state.borderColorCardLanguage.length; j++) {
+                if (arrCards[i].classList.contains(this.state.borderColorCardLanguage[j])) {
+                    //console.log(this.state.borderColorCardLanguage[j]);
+                    arrCards[i].classList.remove(this.state.borderColorCardLanguage[j]);
+                }
+            }
+            //console.log(arrCards[i]);
+        }
     }
 
     firstLanguage() {
@@ -134,6 +165,7 @@ class ChooseLanguages extends Component {
                     cardId={language.id}
                     chooseLanguage={this.chooseLanguage}
                     showSelectOptions={this.state.showSelectOptions}
+                    baseStyleCardLanguage={this.state.baseStyleCardLanguage}
                     borderLanguageCard={this.state.borderLanguageCard}
                     key={language.id}
                 />

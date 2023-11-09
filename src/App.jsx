@@ -30,6 +30,7 @@ class App extends Component {
             amountItems: 10,
             lengthFilteredDictionary: listEnglishSpanish.length
         }
+        this.updateChosenLanguages=this.updateChosenLanguages.bind(this);
         this.saveVocabulary = this.saveVocabulary.bind(this);
         this.reduceLevel = this.reduceLevel.bind(this);
         this.resetLevel = this.resetLevel.bind(this);
@@ -44,6 +45,15 @@ class App extends Component {
         this.adjustAmountItems=this.adjustAmountItems.bind(this);
         this.adjustVisibleDictionary=this.adjustVisibleDictionary.bind(this);
         this.updateEntryDictionary=this.updateEntryDictionary.bind(this);
+    }
+
+    updateChosenLanguages(LanguageIdOne, LanguageIdTwo) {
+        this.setState({
+            languageOne: this.state.arrLanguages[LanguageIdOne-1].Language,
+            languageTwo: this.state.arrLanguages[LanguageIdTwo-1].Language,
+            countryCodeOne: this.state.arrLanguages[LanguageIdOne-1].CountryCode,
+            countryCodeTwo: this.state.arrLanguages[LanguageIdTwo-1].CountryCode
+        })
     }
 
     saveVocabulary() {
@@ -233,10 +243,6 @@ class App extends Component {
     }
 
     adjustVisibleDictionary(page=this.state.currentPage, amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
-        //console.log("input adjustVisibleDictionary:");
-        //console.log(page);
-        //console.log(amount);
-        //console.log(dictionary);
         let reducedDictionary = [];
         let startPoint = (page-1)*this.state.amountItems;
         //console.log("startpoint: " + startPoint);
@@ -293,7 +299,7 @@ class App extends Component {
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 arrLanguages={this.state.arrLanguages}
-                                changeLanguage={this.changeLanguage}
+                                updateChosenLanguages={this.updateChosenLanguages}
                             />}
                         />
                         <Route

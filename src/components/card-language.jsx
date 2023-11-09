@@ -6,11 +6,11 @@ class CardLanguage extends Component {
     render() { 
         return (
             <div
-                className="card m-3"
+                className={this.props.baseStyleCardLanguage}
                 style={{maxWidth: '170px'}}
                 id={"language-card-" + this.props.cardId}
             >
-                <div className="card-header d-flex">
+                <div className="card-header bg-secondary-subtle d-flex">
                     <div className={"form-check" + this.props.showSelectOptions}>
                         <input
                             className="form-check-input"
@@ -23,7 +23,7 @@ class CardLanguage extends Component {
                     </div>
                     <h5>{this.props.languageTitle}</h5>
                 </div>
-                <div className="card-body m-2">
+                <div className="card-body bg-body-tertiary p-3">
                     <ReactCountryFlag
                         countryCode={this.props.countryCode}
                         svg

@@ -28,5 +28,35 @@ export const listLanguages = [
         id: 6,
         Language: 'French',
         CountryCode: 'FR'
+    },
+    {
+        id: 7,
+        Language: 'Italian',
+        CountryCode: 'IT'
+    },
+    {
+        id: 8,
+        Language: 'Greek',
+        CountryCode: 'GR'
+    },
+    {
+        id: 9,
+        Language: 'Russian',
+        CountryCode: 'RU'
+    },
+    {
+        id: 10,
+        Language: 'Serbian',
+        CountryCode: 'RS'
+    },
+    {
+        id: 11,
+        Language: 'Chinese',
+        CountryCode: 'CN'
+    },
+    {
+        id: 12,
+        Language: 'Japanese',
+        CountryCode: 'JP'
     }
 ]
