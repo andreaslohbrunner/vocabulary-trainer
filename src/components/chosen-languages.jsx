@@ -5,35 +5,37 @@ class ChosenLanguages extends Component {
     state = {  } 
     render() { 
         return (
-            <div className="container">
-                <div className="row text-center mt-3">
-                    <div className="col">
-                        <h2>{this.props.languageOne} - {this.props.languageTwo}</h2>
-                    </div>
-                </div>
-                <div className="row justify-content-center my-3 mx-2">
-                    <div className="col-4" style={{maxWidth: '250px'}}>
-                        <ReactCountryFlag
-                            countryCode={this.props.countryCodeOne}
-                            svg
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                            }}
-                            title={this.props.countryCodeOne}
-                        />
-                    </div>
-                    <div className="col-1"></div>
-                    <div className="col-4" style={{maxWidth: '250px'}}>
-                        <ReactCountryFlag
-                            countryCode={this.props.countryCodeTwo}
-                            svg
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                            }}
-                            title={this.props.countryCodeTwo}
-                        />
+            <div className="row justify-content-center">
+                <div className="col-lg-6">
+                    <div className="card mt-3 mx-3 p-2 bg-light">
+                        <div className="row justify-content-center">
+                            <div className="col-3 text-center d-flex flex-column justify-content-center align-items-center m-1 py-3 bg-secondary-subtle rounded-4">
+                                <h3 >{this.props.languageOne}</h3>
+                                <h3 >{this.props.languageTwo}</h3>
+                            </div>
+                            <div className="col-4" style={{maxWidth: '250px'}}>
+                                <ReactCountryFlag
+                                    countryCode={this.props.countryCodeOne}
+                                    svg
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                    title={this.props.countryCodeOne}
+                                />
+                            </div>
+                            <div className="col-4" style={{maxWidth: '250px'}}>
+                                <ReactCountryFlag
+                                    countryCode={this.props.countryCodeTwo}
+                                    svg
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                    title={this.props.countryCodeTwo}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
