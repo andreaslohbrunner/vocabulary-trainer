@@ -1,62 +1,62 @@
 export const listLanguages = [
     {
         id: 1,
-        Language: 'English (US)',
-        CountryCode: 'US'
+        language: 'English (US)',
+        countryCode: 'US'
     },
     {
         id: 2,
-        Language: 'English (GB)',
-        CountryCode: 'GB'
+        language: 'English (GB)',
+        countryCode: 'GB'
     },
     {
         id: 3,
-        Language: 'Spanish',
-        CountryCode: 'ES'
+        language: 'Spanish',
+        countryCode: 'ES'
     },
     {
         id: 4,
-        Language: 'Portugese',
-        CountryCode: 'PT'
+        language: 'Portugese',
+        countryCode: 'PT'
     },
     {
         id: 5,
-        Language: 'German',
-        CountryCode: 'DE'
+        language: 'German',
+        countryCode: 'DE'
     },
     {
         id: 6,
-        Language: 'French',
-        CountryCode: 'FR'
+        language: 'French',
+        countryCode: 'FR'
     },
     {
         id: 7,
-        Language: 'Italian',
-        CountryCode: 'IT'
+        language: 'Italian',
+        countryCode: 'IT'
     },
     {
         id: 8,
-        Language: 'Greek',
-        CountryCode: 'GR'
+        language: 'Greek',
+        countryCode: 'GR'
     },
     {
         id: 9,
-        Language: 'Russian',
-        CountryCode: 'RU'
+        language: 'Russian',
+        countryCode: 'RU'
     },
     {
         id: 10,
-        Language: 'Serbian',
-        CountryCode: 'RS'
+        language: 'Serbian',
+        countryCode: 'RS'
     },
     {
         id: 11,
-        Language: 'Chinese',
-        CountryCode: 'CN'
+        language: 'Chinese',
+        countryCode: 'CN'
     },
     {
         id: 12,
-        Language: 'Japanese',
-        CountryCode: 'JP'
+        language: 'Japanese',
+        countryCode: 'JP'
     }
 ]

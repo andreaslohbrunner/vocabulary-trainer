@@ -16,20 +16,24 @@ class App extends Component {
         super(props);
         this.state = {
             databaseDictionaries: [
-                {
-                    languageOne: 'English (US)',
-                    languageTwo: 'Spanish',
-                },
-                {
-                    dictionary: listEnglishSpanish
-                }
+                [
+                    {
+                        languageOne: 'English (US)',
+                        languageTwo: 'Spanish',
+                        countryCodeOne: 'US',
+                        countryCodeTwo: 'ES'
+                    },
+                    {
+                        dictionary: listEnglishSpanish
+                    }
+                ]
             ],
-            languageOne: 'English',
+            languageOne: 'English (US)',
             languageTwo: 'Spanish',
             countryCodeOne: 'US',
             countryCodeTwo: 'ES',
             arrLanguages: listLanguages,
-            dictionary: listEnglishSpanish,
+            dictionary: [],
             filter: '',
             typeFilter: 'vocabularyLanguageOne',
             filteredDictionary: listEnglishSpanish,
@@ -39,7 +43,10 @@ class App extends Component {
             amountItems: 10,
             lengthFilteredDictionary: listEnglishSpanish.length
         }
+        this.getDictionary=this.getDictionary.bind(this);
         this.updateChosenLanguages=this.updateChosenLanguages.bind(this);
+        this.createNewDictionary=this.createNewDictionary.bind(this);
+        this.updateDictionaryDatabase=this.updateDictionaryDatabase.bind(this);
         this.saveVocabulary = this.saveVocabulary.bind(this);
         this.reduceLevel = this.reduceLevel.bind(this);
         this.resetLevel = this.resetLevel.bind(this);
@@ -56,30 +63,111 @@ class App extends Component {
         this.updateEntryDictionary=this.updateEntryDictionary.bind(this);
     }
 
-    updateChosenLanguages(LanguageIdOne, LanguageIdTwo) {
+    componentDidMount() {
+        this.getDictionary();
+    }
+
+    getDictionary(newCountryCodeOne = this.state.countryCodeOne, newCountryCodeTwo = this.state.countryCodeTwo) {
+        let arrDictionary = this.state.databaseDictionaries.filter(dictionary => {
+            //console.log(newCountryCodeOne === dictionary[0].countryCodeOne);
+            if (newCountryCodeOne === dictionary[0].countryCodeOne) {
+                if (newCountryCodeTwo === dictionary[0].countryCodeTwo) {
+                    return dictionary;
+                }
+            } return false
+        })
+
+        let newDictionary = [...arrDictionary[0][1].dictionary];
+
         this.setState({
-            languageOne: this.state.arrLanguages[LanguageIdOne-1].Language,
-            languageTwo: this.state.arrLanguages[LanguageIdTwo-1].Language,
-            countryCodeOne: this.state.arrLanguages[LanguageIdOne-1].CountryCode,
-            countryCodeTwo: this.state.arrLanguages[LanguageIdTwo-1].CountryCode
+            dictionary: newDictionary
+        })
+        console.log(newDictionary);
+    }
+
+    updateChosenLanguages(objectLanguageOne, objectLanguageTwo) {
+        this.setState({
+            languageOne: objectLanguageOne.language,
+            languageTwo: objectLanguageTwo.language,
+            countryCodeOne: objectLanguageOne.countryCode,
+            countryCodeTwo: objectLanguageTwo.countryCode
         })
     }
 
-    saveVocabulary() {
-        let maxId = this.state.dictionary[this.state.dictionary.length-1].id;
-        let inputLanguageOne = document.getElementById('input-language-one');
-        let inputLanguageTwo = document.getElementById('input-language-two'); 
+    createNewDictionary(objectLanguageOne, objectLanguageTwo) {
+        console.log(objectLanguageOne);
+        console.log(objectLanguageTwo);
+        let newDictionary = [
+            {
+                languageOne: objectLanguageOne.language,
+                languageTwo: objectLanguageTwo.language,
+                countryCodeOne: objectLanguageOne.countryCode,
+                countryCodeTwo: objectLanguageTwo.countryCode
+            },
+            {
+                dictionary: []
+            }
+        ]
+        console.log("new cardDictionary (created)")
+        console.log(newDictionary);
         this.setState({
-            dictionary: [
-                ...this.state.dictionary,
-                {
-                    id: maxId + 1,
-                    vocabularyLanguageOne: inputLanguageOne.value,
-                    vocabularyLanguageTwo: inputLanguageTwo.value,
-                    MemoryLevel: 1
-                }
-            ]
+            databaseDictionaries: [...this.state.databaseDictionaries, newDictionary],
+            dictionary: []
         })
+    }
+
+    updateDictionaryDatabase(newDictionary) {
+        console.log("newDictionary (updated):");
+        console.log(newDictionary);
+        console.log("old database:");
+        console.log(this.state.databaseDictionaries);
+        let newDatabaseDictionaries = this.state.databaseDictionaries.map(cardDictionary => {
+            console.log(cardDictionary);
+            if (cardDictionary[0].countryCodeOne === this.state.countryCodeOne) {
+                if (cardDictionary[0].countryCodeTwo === this.state.countryCodeTwo) {
+                    return (
+                        [
+                            {
+                                languageOne: cardDictionary[0].languageOne,
+                                languageTwo: cardDictionary[0].languageTwo,
+                                countryCodeOne: cardDictionary[0].countryCodeOne,
+                                countryCodeTwo: cardDictionary[0].countryCodeTwo
+                            },
+                            {
+                                dictionary: newDictionary
+                            }
+                        ]
+                    )
+                } return cardDictionary;
+            } return cardDictionary;
+        });
+        console.log("new database:");
+        console.log(newDatabaseDictionaries);
+        this.setState({
+            databaseDictionaries: newDatabaseDictionaries
+        });
+    }
+
+    saveVocabulary() {
+        let maxId = 0;
+        if (this.state.dictionary.length > 0) {
+            maxId = this.state.dictionary[this.state.dictionary.length-1].id;
+        }
+        let inputLanguageOne = document.getElementById('input-language-one');
+        let inputLanguageTwo = document.getElementById('input-language-two');
+        let newDictionary = [
+            ...this.state.dictionary,
+            {
+                id: maxId + 1,
+                vocabularyLanguageOne: inputLanguageOne.value,
+                vocabularyLanguageTwo: inputLanguageTwo.value,
+                MemoryLevel: 1
+            }
+        ]
+        this.setState({
+            dictionary: newDictionary
+        })
+        this.updateDictionaryDatabase(newDictionary);
     }
 
     reduceLevel() {
@@ -102,6 +190,7 @@ class App extends Component {
         this.setState({
             dictionary: updatedDictionary
         })
+        this.updateDictionaryDatabase(updatedDictionary);
     }
 
     resetLevel() {
@@ -124,6 +213,7 @@ class App extends Component {
         this.setState({
             dictionary: updatedDictionary
         })
+        this.updateDictionaryDatabase(updatedDictionary);
     }
 
     deleteVocabulary() {
@@ -151,6 +241,7 @@ class App extends Component {
         this.setState({
             dictionary: renumberedDictionary
         })
+        this.updateDictionaryDatabase(renumberedDictionary);
     }
 
     renumberDictionary(dictionary) {
@@ -268,21 +359,23 @@ class App extends Component {
 
     updateEntryDictionary(i, newLevel, newCorrectAnswer) {
         if (newLevel<=0) newLevel = 1;
-        this.setState({
-            dictionary: this.state.dictionary.map(vocabulary => {
-                if (vocabulary.id === i) {
-                    return {
-                        id: vocabulary.id,
-                        vocabularyLanguageOne: vocabulary.vocabularyLanguageOne,
-                        vocabularyLanguageTwo: vocabulary.vocabularyLanguageTwo,
-                        MemoryLevel: newLevel,
-                        LastTestCorrectAnswer: newCorrectAnswer
-                    };
-                } else {
-                    return vocabulary;
-                }
-            })
+        let newDictionary = this.state.dictionary.map(vocabulary => {
+            if (vocabulary.id === i) {
+                return {
+                    id: vocabulary.id,
+                    vocabularyLanguageOne: vocabulary.vocabularyLanguageOne,
+                    vocabularyLanguageTwo: vocabulary.vocabularyLanguageTwo,
+                    MemoryLevel: newLevel,
+                    LastTestCorrectAnswer: newCorrectAnswer
+                };
+            } else {
+                return vocabulary;
+            }
         })
+        this.setState({
+            dictionary: newDictionary
+        })
+        this.updateDictionaryDatabase(newDictionary);
     }
 
     render() { 
@@ -306,7 +399,9 @@ class App extends Component {
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 arrLanguages={this.state.arrLanguages}
+                                getDictionary={this.getDictionary}
                                 updateChosenLanguages={this.updateChosenLanguages}
+                                createNewDictionary={this.createNewDictionary}
                             />}
                         />
                         <Route
@@ -315,6 +410,7 @@ class App extends Component {
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 dictionary={this.state.dictionary}
+                                getDictionary={this.getDictionary}
                                 saveVocabulary={this.saveVocabulary}
                             />}
                         />
@@ -324,6 +420,7 @@ class App extends Component {
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
                                 dictionary={this.state.dictionary}
+                                getDictionary={this.getDictionary}
                                 onClickReduceLevel={this.reduceLevel}
                                 onClickResetLevel={this.resetLevel}
                                 onClickDeleteVocabulary={this.deleteVocabulary}

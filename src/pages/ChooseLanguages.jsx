@@ -98,16 +98,16 @@ class ChooseLanguages extends Component {
             })
         //define actions when both languages are selected
         } else {
-            this.props.updateChosenLanguages(this.state.checkedLanguageIdOne, this.state.checkedLanguageIdTwo);
             this.changeStyleLanguageCards();
-            this.checkDictionaryAvailability();
+            let objectLanguageOne = this.props.arrLanguages[this.state.checkedLanguageIdOne-1];
+            let objectLanguageTwo = this.props.arrLanguages[this.state.checkedLanguageIdTwo-1];
+            this.props.updateChosenLanguages(objectLanguageOne, objectLanguageTwo);
+            this.checkDictionaryAvailability(objectLanguageOne, objectLanguageTwo);
             this.setState({
                 disableButton: true,
                 showChangeLanguage: '',
                 showSelectOptions: ' d-none',
-                textDisplay: 'Chosen Languages: '
-                    + this.props.arrLanguages[this.state.checkedLanguageIdOne-1].Language
-                    + ' - ' + this.props.arrLanguages[this.state.checkedLanguageIdTwo-1].Language,
+                textDisplay: 'Chosen Languages: ' + objectLanguageOne.language + ' - ' + objectLanguageTwo.language,
                 checkedCheckBox: '',
                 checkedLanguageIdOne: 0,
                 checkedLanguageIdTwo: 0
@@ -148,16 +148,35 @@ class ChooseLanguages extends Component {
         }
     }
 
-    checkDictionaryAvailability() {
+    checkDictionaryAvailability(objectLanguageOne, objectLanguageTwo) {
+        let flag=false;
         console.log(this.props.databaseDictionaries);
+        for (let i=0; i<this.props.databaseDictionaries.length; i++) {
+            console.log(this.props.databaseDictionaries[i][0].countryCodeOne);
+            console.log(objectLanguageOne.countryCode);
+            console.log(this.props.databaseDictionaries[i][0].countryCodeTwo);
+            console.log(objectLanguageTwo.countryCode);
+            if (this.props.databaseDictionaries[i][0].countryCodeOne === objectLanguageOne.countryCode) {
+                if (this.props.databaseDictionaries[i][0].countryCodeTwo === objectLanguageTwo.countryCode) {
+                    flag=true;
+                }
+                
+            }
+        }
+        console.log(flag);
+        if (flag) {
+            this.props.getDictionary(objectLanguageOne.countryCode, objectLanguageTwo.countryCode);
+        } else {
+            this.props.createNewDictionary(objectLanguageOne, objectLanguageTwo);
+        }
     }
 
     render() {
         const overviewLanguages = listLanguages.map(language => {
             return (
                 <CardLanguage
-                    languageTitle={language.Language}
-                    countryCode={language.CountryCode}
+                    languageTitle={language.language}
+                    countryCode={language.countryCode}
                     cardId={language.id}
                     chooseLanguage={this.chooseLanguage}
                     showSelectOptions={this.state.showSelectOptions}
