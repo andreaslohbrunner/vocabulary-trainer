@@ -1,4 +1,5 @@
 import { Component } from "react";
+import React from "react";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import { listLanguages } from "./components/content/list-of-languages";
@@ -45,6 +46,7 @@ class App extends Component {
         }
         this.getDictionary=this.getDictionary.bind(this);
         this.switchLanguages=this.switchLanguages.bind(this);
+        this.test=React.createRef();
         this.updateChosenLanguages=this.updateChosenLanguages.bind(this);
         this.createNewDictionary=this.createNewDictionary.bind(this);
         this.updateDictionaryDatabase=this.updateDictionaryDatabase.bind(this);
@@ -92,7 +94,7 @@ class App extends Component {
         let completeUrl = window.location.href;
         let pathUrl = completeUrl.slice(-4);
         console.log(pathUrl);
-        if (pathUrl === 'test') console.log("go to shuffle");
+        if (pathUrl === 'test') this.test.current.reshuffleTestDictionaryOrder();
     }
 
     updateChosenLanguages(objectLanguageOne, objectLanguageTwo) {
@@ -463,6 +465,7 @@ class App extends Component {
                                 countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 updateEntryDictionary={this.updateEntryDictionary}
+                                ref={this.test}
                             />}
                         />
                     </Route>

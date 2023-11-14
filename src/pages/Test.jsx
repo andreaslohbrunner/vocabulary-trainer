@@ -54,6 +54,7 @@ class Test extends Component {
         this.acceptCorrection=this.acceptCorrection.bind(this);
         this.showEndscore=this.showEndscore.bind(this);
         this.createNextTest=this.createNextTest.bind(this);
+        this.reshuffleTestDictionaryOrder=this.reshuffleTestDictionaryOrder.bind(this);
     }
 
     componentDidMount() {
@@ -219,7 +220,6 @@ class Test extends Component {
         } else {
             this.setState({
                 testVocabulary: this.state.testDictionaryOrder[this.state.testNumber],
-                numberTests: this.state.numberTests + 1,
                 testedWordsIds: [],
                 result: 'Result',
                 resultColor: 'bg-secondary',
@@ -231,6 +231,25 @@ class Test extends Component {
             })
             this.getInitialWordsLeft();
         }
+    }
+
+    reshuffleTestDictionaryOrder() {
+        console.log("Reshuffle!");
+        this.getTestDictionaryOrder();
+        this.setState({
+            testedWordsIds: [],
+            testedWordsIdsTotal: [],
+            result: 'Result',
+            resultColor: 'bg-secondary',
+            testedWords: 0,
+            correctAnswers: 0,
+            score: 0,
+            totalTestedWords: 0,
+            totalCorrectAnswers: 0,
+            totalScore: 0,
+            displayTest: '',
+            displayEndscore: ' d-none'
+        })
     }
 
     render() { 
