@@ -40,8 +40,8 @@ class AddVocabularyContent extends Component {
             return (
                 <RowDictionarySimple
                     rowId={vocabulary.id}
-                    rowLanguageOne={vocabulary.vocabularyLanguageOne}
-                    rowLanguageTwo={vocabulary.vocabularyLanguageTwo}
+                    rowLanguageOne={vocabulary[this.props.countryCodeOne]}
+                    rowLanguageTwo={vocabulary[this.props.countryCodeTwo]}
                     key={vocabulary.id}
                 />
             )

@@ -10,6 +10,8 @@ class AddVocabulary extends Component {
                 <AddVocabularyContent
                     languageOne={this.props.languageOne}
                     languageTwo={this.props.languageTwo}
+                    countryCodeOne={this.props.countryCodeOne}
+                    countryCodeTwo={this.props.countryCodeTwo}
                     dictionary={this.props.dictionary}
                     saveVocabulary={this.props.saveVocabulary}
                 />

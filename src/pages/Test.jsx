@@ -61,12 +61,16 @@ class Test extends Component {
     }
 
     getTestDictionaryOrder() {
+        console.log("shuffle");
+        console.log("dictionary:");
+        console.log(this.props.dictionary);
         let copyDictionary = [...this.props.dictionary];
         const shuffledDictionary = copyDictionary.sort(() => 0.5 - Math.random());
         console.log(shuffledDictionary);
         this.setState({
             testDictionaryOrder: shuffledDictionary,
-            testVocabulary: shuffledDictionary[this.state.testNumber],
+            testVocabulary: shuffledDictionary[0],
+            testNumber: 0
         })
         this.getInitialWordsLeft();
     }
@@ -107,7 +111,8 @@ class Test extends Component {
         this.resetInterval();
         let answer=document.getElementById("test-answer")
         console.log(answer.value);
-        if (answer.value === this.state.testVocabulary.vocabularyLanguageTwo) {
+        console.log(this.state.testVocabulary);
+        if (answer.value === this.state.testVocabulary[this.props.countryCodeTwo]) {
             this.getCorrectAnswer();
             answer.value='';
         } else {
@@ -266,11 +271,13 @@ class Test extends Component {
                 default:
                     iconClass = 'fa-question';
             }
+            //console.log("debug");
+            //console.log(this.props.dictionary[id-1]);
             return (
                 <RowDictionaryTestedWords
                     rowId={id}
-                    rowLanguageOne={this.props.dictionary[id-1].vocabularyLanguageOne}
-                    rowLanguageTwo={this.props.dictionary[id-1].vocabularyLanguageTwo}
+                    rowLanguageOne={this.props.dictionary[id-1][this.props.countryCodeOne]}
+                    rowLanguageTwo={this.props.dictionary[id-1][this.props.countryCodeTwo]}
                     memoryLevel={this.props.dictionary[id-1].MemoryLevel}
                     correctAnswer={iconClass}
                     key={id}
@@ -335,7 +342,7 @@ class Test extends Component {
                             </table>
                             <div className={"test-question row mt-3 mx-2" + this.state.displayTest}>
                                 <h5 className="mb-4 text-center">Please translate into {this.props.languageTwo}:</h5>
-                                <h3 className="text-center mb-3">{this.state.testVocabulary.vocabularyLanguageOne}</h3>
+                                <h3 className="text-center mb-3">{this.state.testVocabulary[this.props.countryCodeOne]}</h3>
                                 <div>
                                     <input
                                         type="text"
@@ -367,7 +374,7 @@ class Test extends Component {
                                 <div className="text-center col-7 mt-2">
                                     <i>Correct Answer: 
                                         <i className="fw-bold">
-                                            {' ' + this.state.testVocabulary.vocabularyLanguageTwo}
+                                            {' ' + this.state.testVocabulary[this.props.countryCodeTwo]}
                                         </i>
                                     </i>
                                 </div>

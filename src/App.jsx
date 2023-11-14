@@ -33,9 +33,9 @@ class App extends Component {
             countryCodeOne: 'US',
             countryCodeTwo: 'ES',
             arrLanguages: listLanguages,
-            dictionary: [],
+            dictionary: listEnglishSpanish,
             filter: '',
-            typeFilter: 'vocabularyLanguageOne',
+            typeFilter: 'English (US)',
             filteredDictionary: listEnglishSpanish,
             visibleDictionary: listEnglishSpanish,
             currentPage: 1,
@@ -44,6 +44,7 @@ class App extends Component {
             lengthFilteredDictionary: listEnglishSpanish.length
         }
         this.getDictionary=this.getDictionary.bind(this);
+        this.switchLanguages=this.switchLanguages.bind(this);
         this.updateChosenLanguages=this.updateChosenLanguages.bind(this);
         this.createNewDictionary=this.createNewDictionary.bind(this);
         this.updateDictionaryDatabase=this.updateDictionaryDatabase.bind(this);
@@ -63,10 +64,6 @@ class App extends Component {
         this.updateEntryDictionary=this.updateEntryDictionary.bind(this);
     }
 
-    componentDidMount() {
-        this.getDictionary();
-    }
-
     getDictionary(newCountryCodeOne = this.state.countryCodeOne, newCountryCodeTwo = this.state.countryCodeTwo) {
         let arrDictionary = this.state.databaseDictionaries.filter(dictionary => {
             //console.log(newCountryCodeOne === dictionary[0].countryCodeOne);
@@ -83,6 +80,19 @@ class App extends Component {
             dictionary: newDictionary
         })
         console.log(newDictionary);
+    }
+
+    switchLanguages() {
+        this.setState({
+            languageOne: this.state.languageTwo,
+            languageTwo: this.state.languageOne,
+            countryCodeOne: this.state.countryCodeTwo,
+            countryCodeTwo: this.state.countryCodeOne
+        })
+        let completeUrl = window.location.href;
+        let pathUrl = completeUrl.slice(-4);
+        console.log(pathUrl);
+        if (pathUrl === 'test') console.log("go to shuffle");
     }
 
     updateChosenLanguages(objectLanguageOne, objectLanguageTwo) {
@@ -159,8 +169,8 @@ class App extends Component {
             ...this.state.dictionary,
             {
                 id: maxId + 1,
-                vocabularyLanguageOne: inputLanguageOne.value,
-                vocabularyLanguageTwo: inputLanguageTwo.value,
+                [this.state.countryCodeOne]: inputLanguageOne.value,
+                [this.state.countryCodeTwo]: inputLanguageTwo.value,
                 MemoryLevel: 1
             }
         ]
@@ -363,8 +373,8 @@ class App extends Component {
             if (vocabulary.id === i) {
                 return {
                     id: vocabulary.id,
-                    vocabularyLanguageOne: vocabulary.vocabularyLanguageOne,
-                    vocabularyLanguageTwo: vocabulary.vocabularyLanguageTwo,
+                    [this.state.countryCodeOne]: vocabulary[this.state.countryCodeOne],
+                    [this.state.countryCodeTwo]: vocabulary[this.state.countryCodeTwo],
                     MemoryLevel: newLevel,
                     LastTestCorrectAnswer: newCorrectAnswer
                 };
@@ -389,6 +399,7 @@ class App extends Component {
                             languageTwo={this.state.languageTwo}
                             countryCodeOne={this.state.countryCodeOne}
                             countryCodeTwo={this.state.countryCodeTwo}
+                            switchLanguages={this.switchLanguages}
                         />}
                     >
                         <Route index element={<Home />} />
@@ -409,6 +420,8 @@ class App extends Component {
                             element={<AddVocabulary 
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
+                                countryCodeOne={this.state.countryCodeOne}
+                                countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 getDictionary={this.getDictionary}
                                 saveVocabulary={this.saveVocabulary}
@@ -419,6 +432,8 @@ class App extends Component {
                             element={<Dictionary
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
+                                countryCodeOne={this.state.countryCodeOne}
+                                countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 getDictionary={this.getDictionary}
                                 onClickReduceLevel={this.reduceLevel}
@@ -444,6 +459,8 @@ class App extends Component {
                             element={<Test
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}
+                                countryCodeOne={this.state.countryCodeOne}
+                                countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 updateEntryDictionary={this.updateEntryDictionary}
                             />}

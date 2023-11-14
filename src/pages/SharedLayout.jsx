@@ -11,6 +11,7 @@ class SharedLayout extends Component {
                 <NavBar />
 
                 <ChosenLanguages
+                    switchLanguages={this.props.switchLanguages}
                     languageOne={this.props.languageOne}
                     languageTwo={this.props.languageTwo}
                     countryCodeOne={this.props.countryCodeOne}

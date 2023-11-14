@@ -16,8 +16,8 @@ class Dictionary extends Component {
             return (
                 <RowDictionaryAdvanced
                     rowId={vocabulary.id}
-                    rowLanguageOne={vocabulary.vocabularyLanguageOne}
-                    rowLanguageTwo={vocabulary.vocabularyLanguageTwo}
+                    rowLanguageOne={vocabulary[this.props.countryCodeOne]}
+                    rowLanguageTwo={vocabulary[this.props.countryCodeTwo]}
                     memoryLevel={vocabulary.MemoryLevel}
                     key={vocabulary.id}
                 />
