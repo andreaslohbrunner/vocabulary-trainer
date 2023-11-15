@@ -6,7 +6,7 @@ class NavBar extends Component {
     render() { 
         return (
             <div>
-                <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+                <nav className="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
                     <div className="container-fluid">
                         <a className="navbar-brand" href="/">Vocabulary Trainer</a>
                         <button

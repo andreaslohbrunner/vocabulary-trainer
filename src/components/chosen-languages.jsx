@@ -5,8 +5,8 @@ class ChosenLanguages extends Component {
     state = {  } 
     render() { 
         return (
-            <div className="row justify-content-center">
-                <div className="col-lg-6">
+            <div className="row justify-content-center mt-5">
+                <div className="col-lg-6 mt-2">
                     <div className="card mt-3 mx-3 p-2 bg-light">
                         <div className="row justify-content-center">
                             <div className="col-3 text-center d-flex flex-column justify-content-center align-items-center m-1 py-3 bg-secondary-subtle rounded-4">
