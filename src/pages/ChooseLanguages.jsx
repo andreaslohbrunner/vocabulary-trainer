@@ -149,22 +149,24 @@ class ChooseLanguages extends Component {
     }
 
     checkDictionaryAvailability(objectLanguageOne, objectLanguageTwo) {
-        let flag=false;
+        let flagDictionaryAvailable=false;
         console.log(this.props.databaseDictionaries);
         for (let i=0; i<this.props.databaseDictionaries.length; i++) {
+            console.log("compare countryCodes in database:")
             console.log(this.props.databaseDictionaries[i][0].countryCodeOne);
             console.log(objectLanguageOne.countryCode);
             console.log(this.props.databaseDictionaries[i][0].countryCodeTwo);
             console.log(objectLanguageTwo.countryCode);
             if (this.props.databaseDictionaries[i][0].countryCodeOne === objectLanguageOne.countryCode) {
                 if (this.props.databaseDictionaries[i][0].countryCodeTwo === objectLanguageTwo.countryCode) {
-                    flag=true;
+                    flagDictionaryAvailable=true;
                 }
                 
             }
         }
-        console.log(flag);
-        if (flag) {
+        //console.log(flagDictionaryAvailable);
+        if (flagDictionaryAvailable) {
+            console.log("dictionary available");
             this.props.getDictionary(objectLanguageOne.countryCode, objectLanguageTwo.countryCode);
         } else {
             this.props.createNewDictionary(objectLanguageOne, objectLanguageTwo);

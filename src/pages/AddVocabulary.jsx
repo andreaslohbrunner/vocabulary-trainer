@@ -15,6 +15,8 @@ class AddVocabulary extends Component {
 
     componentDidMount() {
         this.props.resetTypeFilter();
+        this.props.resetFilter();
+        this.props.updateFilteredDictionary('', 1);
     }
 
     clearInput() {
@@ -37,7 +39,7 @@ class AddVocabulary extends Component {
         this.setState({
             [inputValue]: e.target.value
         })
-        this.props.onChangeFilter(e);
+        if (inputValue === 'valueInputOne') this.props.onChangeFilter(e);
     }
 
     render() { 

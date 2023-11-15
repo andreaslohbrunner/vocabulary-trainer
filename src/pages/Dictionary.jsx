@@ -7,6 +7,7 @@ class Dictionary extends Component {
     componentDidMount() {
         this.props.getMaxPage();
         this.props.updateFilteredDictionary();
+        this.props.resetFilter();
     }
 
     render() {
@@ -89,16 +90,7 @@ class Dictionary extends Component {
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox" value=""
-                                                    id="checkbox-all"
-                                                />
-                                                    <label className="form-check-label" htmlFor="flexCheckDefault" />
-                                            </div>
-                                        </th>
+                                        <th scope="col"></th>
                                         <th scope="col">{this.props.languageOne}</th>
                                         <th scope="col">{this.props.languageTwo}</th>
                                         <th scope="col">Level</th>

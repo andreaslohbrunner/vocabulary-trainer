@@ -58,6 +58,7 @@ class App extends Component {
         this.changeTypeFilter=this.changeTypeFilter.bind(this);
         this.resetTypeFilter=this.resetTypeFilter.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
+        this.resetFilter=this.resetFilter.bind(this);
         this.updateFilteredDictionary=this.updateFilteredDictionary.bind(this);
         this.pageNumberDecrease=this.pageNumberDecrease.bind(this);
         this.pageNumberIncrease=this.pageNumberIncrease.bind(this);
@@ -94,7 +95,6 @@ class App extends Component {
         })
         let completeUrl = window.location.href;
         let pathUrl = completeUrl.slice(-4);
-        console.log(pathUrl);
         if (pathUrl === 'test') this.test.current.reshuffleTestDictionaryOrder();
     }
 
@@ -130,12 +130,12 @@ class App extends Component {
     }
 
     updateDictionaryDatabase(newDictionary) {
-        console.log("newDictionary (updated):");
+        /*console.log("newDictionary (updated):");
         console.log(newDictionary);
         console.log("old database:");
-        console.log(this.state.databaseDictionaries);
+        console.log(this.state.databaseDictionaries);*/
         let newDatabaseDictionaries = this.state.databaseDictionaries.map(cardDictionary => {
-            console.log(cardDictionary);
+            //console.log(cardDictionary);
             if (cardDictionary[0].countryCodeOne === this.state.countryCodeOne) {
                 if (cardDictionary[0].countryCodeTwo === this.state.countryCodeTwo) {
                     return (
@@ -154,8 +154,8 @@ class App extends Component {
                 } return cardDictionary;
             } return cardDictionary;
         });
-        console.log("new database:");
-        console.log(newDatabaseDictionaries);
+        //console.log("new database:");
+        //console.log(newDatabaseDictionaries);
         this.setState({
             databaseDictionaries: newDatabaseDictionaries
         });
@@ -178,9 +178,11 @@ class App extends Component {
             }
         ]
         this.setState({
-            dictionary: newDictionary
+            dictionary: newDictionary,
+            filter: ''
         })
         this.updateDictionaryDatabase(newDictionary);
+        this.updateFilteredDictionary('', 1, newDictionary);
     }
 
     reduceLevel() {
@@ -199,7 +201,7 @@ class App extends Component {
                 return vocabulary;
             }
         })
-        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary);
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary, false);
         this.setState({
             dictionary: updatedDictionary
         })
@@ -222,7 +224,7 @@ class App extends Component {
                 return vocabulary;
             }
         })
-        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary);
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary, false);
         this.setState({
             dictionary: updatedDictionary
         })
@@ -250,7 +252,7 @@ class App extends Component {
         let renumberedDictionary = this.renumberDictionary(updatedDictionary);
         //console.log("renumberedDictionary:");
         //console.log(renumberedDictionary);
-        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, renumberedDictionary);
+        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, renumberedDictionary, false);
         this.setState({
             dictionary: renumberedDictionary
         })
@@ -290,7 +292,19 @@ class App extends Component {
         //console.log(event.target.value);
     }
 
-    updateFilteredDictionary(expression='', page=this.state.currentPage, dictionary=this.state.dictionary) {
+    resetFilter() {
+        this.setState({
+            filter: ''
+        })
+    }
+
+    updateFilteredDictionary(expression='', page=this.state.currentPage, dictionary=this.state.dictionary, resetCurrentPage=true) {
+        /*console.log("expression:");
+        console.log(expression);
+        console.log("currentPage:");
+        console.log(page);
+        console.log("input dictionary to filter function:");
+        console.log(dictionary);*/
         let newDictionary = [];
         if(expression === '') {
             newDictionary = [...dictionary];
@@ -303,10 +317,16 @@ class App extends Component {
                 }
             }
         };
-        this.setState({
-            filteredDictionary: newDictionary,
-            currentPage: 1
-        })
+        if (resetCurrentPage) {
+            this.setState({
+                filteredDictionary: newDictionary,
+                currentPage: 1
+            })
+        } else {
+            this.setState({
+                filteredDictionary: newDictionary
+            })
+        }
         this.adjustVisibleDictionary(page, this.state.amountItems, newDictionary);
         this.getMaxPage(this.state.amountItems, newDictionary);
         //console.log(newDictionary);
@@ -325,8 +345,8 @@ class App extends Component {
 
     pageNumberIncrease() {
         let newCurrentPage = 0;
-        console.log("currentPage: " + this.state.currentPage);
-        console.log("maxPage: " + this.state.maxPage);
+        //console.log("currentPage: " + this.state.currentPage);
+        //console.log("maxPage: " + this.state.maxPage);
         if (this.state.currentPage < this.state.maxPage) {
             newCurrentPage = this.state.currentPage+1;
             this.setState({
@@ -337,10 +357,11 @@ class App extends Component {
     }
 
     getMaxPage(amount=this.state.amountItems, dictionary=this.state.filteredDictionary) {
-        let amountVocabularies = dictionary.length;
+        let amountVocabularies = 1;
+        if (dictionary.length > 0) amountVocabularies = dictionary.length;
         this.setState({
             maxPage: Math.ceil(amountVocabularies/amount),
-            lengthFilteredDictionary: amountVocabularies
+            lengthFilteredDictionary: dictionary.length
         })
     }
 
@@ -434,10 +455,12 @@ class App extends Component {
                                 countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 filteredDictionary={this.state.filteredDictionary}
+                                updateFilteredDictionary={this.updateFilteredDictionary}
                                 getDictionary={this.getDictionary}
                                 saveVocabulary={this.saveVocabulary}
                                 onChangeFilter={this.updateFilter}
                                 resetTypeFilter={this.resetTypeFilter}
+                                resetFilter={this.resetFilter}
                             />}
                         />
                         <Route
@@ -455,6 +478,7 @@ class App extends Component {
                                 filter={this.state.filter}
                                 onChangeTypeFilter={this.changeTypeFilter}
                                 onChangeFilter={this.updateFilter}
+                                resetFilter={this.resetFilter}
                                 updateFilteredDictionary={this.updateFilteredDictionary}
                                 visibleDictionary={this.state.visibleDictionary}
                                 currentPage={this.state.currentPage}

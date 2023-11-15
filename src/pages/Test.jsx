@@ -62,11 +62,11 @@ class Test extends Component {
     }
 
     getTestDictionaryOrder() {
-        console.log("shuffle");
         console.log("dictionary:");
         console.log(this.props.dictionary);
         let copyDictionary = [...this.props.dictionary];
         const shuffledDictionary = copyDictionary.sort(() => 0.5 - Math.random());
+        console.log("shuffled dictionary");
         console.log(shuffledDictionary);
         this.setState({
             testDictionaryOrder: shuffledDictionary,
@@ -418,7 +418,7 @@ class Test extends Component {
                                 </div>
                                 <div className={"col-4"}>
                                     <div className={"mb-5" + showElementsTotalEndScore}>
-                                        No more vocabularies left to test today! Great job!
+                                        No more vocabularies left to test! Great job!
                                         These are your final results:
                                     </div>
                                     <p className="text-center">
