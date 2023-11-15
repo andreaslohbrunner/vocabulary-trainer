@@ -36,7 +36,7 @@ class App extends Component {
             arrLanguages: listLanguages,
             dictionary: listEnglishSpanish,
             filter: '',
-            typeFilter: 'English (US)',
+            typeFilter: 'US',
             filteredDictionary: listEnglishSpanish,
             visibleDictionary: listEnglishSpanish,
             currentPage: 1,
@@ -56,6 +56,7 @@ class App extends Component {
         this.deleteVocabulary = this.deleteVocabulary.bind(this);
         this.renumberDictionary = this.renumberDictionary.bind(this);
         this.changeTypeFilter=this.changeTypeFilter.bind(this);
+        this.resetTypeFilter=this.resetTypeFilter.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
         this.updateFilteredDictionary=this.updateFilteredDictionary.bind(this);
         this.pageNumberDecrease=this.pageNumberDecrease.bind(this);
@@ -275,11 +276,18 @@ class App extends Component {
         })
     }
 
+    resetTypeFilter() {
+        this.setState({
+            typeFilter: this.state.countryCodeOne
+        })
+    }
+
     updateFilter(event) {
         this.setState({
             filter: event.target.value
         })
         this.updateFilteredDictionary(event.target.value, 1);
+        //console.log(event.target.value);
     }
 
     updateFilteredDictionary(expression='', page=this.state.currentPage, dictionary=this.state.dictionary) {
@@ -425,8 +433,11 @@ class App extends Component {
                                 countryCodeOne={this.state.countryCodeOne}
                                 countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
+                                filteredDictionary={this.state.filteredDictionary}
                                 getDictionary={this.getDictionary}
                                 saveVocabulary={this.saveVocabulary}
+                                onChangeFilter={this.updateFilter}
+                                resetTypeFilter={this.resetTypeFilter}
                             />}
                         />
                         <Route

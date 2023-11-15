@@ -68,9 +68,9 @@ class Dictionary extends Component {
                                         id="autoSizingSelect"
                                         onChange={this.props.onChangeTypeFilter}
                                     >
-                                        <option value='vocabularyLanguageOne'>Choose...</option>
-                                        <option value='vocabularyLanguageOne'>{this.props.languageOne}</option>
-                                        <option value='vocabularyLanguageTwo'>{this.props.languageTwo}</option>
+                                        <option value={this.props.countryCodeOne}>Choose...</option>
+                                        <option value={this.props.countryCodeOne}>{this.props.languageOne}</option>
+                                        <option value={this.props.countryCodeTwo}>{this.props.languageTwo}</option>
                                         <option value="MemoryLevel">Level</option>
                                     </select>
                                 </div>
