@@ -9,8 +9,8 @@ class NavBar extends Component {
                 <nav className="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
                     <div className="container-fluid">
                         <NavLink
-                            className="navbar-brand"
                             to='/'
+                            className="navbar-brand"
                             href="#"
                         >
                             Vocabulary Trainer
