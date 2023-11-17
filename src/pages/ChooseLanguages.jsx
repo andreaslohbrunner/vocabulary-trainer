@@ -150,6 +150,7 @@ class ChooseLanguages extends Component {
 
     checkDictionaryAvailability(objectLanguageOne, objectLanguageTwo) {
         let flagDictionaryAvailable=false;
+        console.log("database:");
         console.log(this.props.databaseDictionaries);
         for (let i=0; i<this.props.databaseDictionaries.length; i++) {
             console.log("compare countryCodes in database:")
@@ -157,8 +158,10 @@ class ChooseLanguages extends Component {
             console.log(objectLanguageOne.countryCode);
             console.log(this.props.databaseDictionaries[i][0].countryCodeTwo);
             console.log(objectLanguageTwo.countryCode);
-            if (this.props.databaseDictionaries[i][0].countryCodeOne === objectLanguageOne.countryCode) {
-                if (this.props.databaseDictionaries[i][0].countryCodeTwo === objectLanguageTwo.countryCode) {
+            if ((this.props.databaseDictionaries[i][0].countryCodeOne === objectLanguageOne.countryCode)
+            || (this.props.databaseDictionaries[i][0].countryCodeTwo === objectLanguageOne.countryCode)) {
+                if ((this.props.databaseDictionaries[i][0].countryCodeTwo === objectLanguageTwo.countryCode)
+                || (this.props.databaseDictionaries[i][0].countryCodeOne === objectLanguageTwo.countryCode)) {
                     flagDictionaryAvailable=true;
                 }
                 

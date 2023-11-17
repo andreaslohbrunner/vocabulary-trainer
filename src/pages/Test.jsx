@@ -200,7 +200,7 @@ class Test extends Component {
     }
 
     showEndscore() {
-        console.log(this.props.dictionary);
+        //console.log(this.props.dictionary);
         this.setState({
             displayTest: ' d-none',
             displayEndscore: ''

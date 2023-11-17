@@ -51,8 +51,7 @@ class App extends Component {
         this.createNewDictionary=this.createNewDictionary.bind(this);
         this.updateDictionaryDatabase=this.updateDictionaryDatabase.bind(this);
         this.saveVocabulary = this.saveVocabulary.bind(this);
-        this.reduceLevel = this.reduceLevel.bind(this);
-        this.resetLevel = this.resetLevel.bind(this);
+        this.adjustLevel = this.adjustLevel.bind(this);
         this.deleteVocabulary = this.deleteVocabulary.bind(this);
         this.renumberDictionary = this.renumberDictionary.bind(this);
         this.changeTypeFilter=this.changeTypeFilter.bind(this);
@@ -71,8 +70,10 @@ class App extends Component {
     getDictionary(newCountryCodeOne = this.state.countryCodeOne, newCountryCodeTwo = this.state.countryCodeTwo) {
         let arrDictionary = this.state.databaseDictionaries.filter(dictionary => {
             //console.log(newCountryCodeOne === dictionary[0].countryCodeOne);
-            if (newCountryCodeOne === dictionary[0].countryCodeOne) {
-                if (newCountryCodeTwo === dictionary[0].countryCodeTwo) {
+            if ((newCountryCodeOne === dictionary[0].countryCodeOne)
+            || (newCountryCodeOne === dictionary[0].countryCodeTwo)) {
+                if ((newCountryCodeTwo === dictionary[0].countryCodeTwo)
+                || (newCountryCodeTwo === dictionary[0].countryCodeOne)) {
                     return dictionary;
                 }
             } return false
@@ -108,6 +109,7 @@ class App extends Component {
     }
 
     createNewDictionary(objectLanguageOne, objectLanguageTwo) {
+        console.log("input for creating new cardDictionary:")
         console.log(objectLanguageOne);
         console.log(objectLanguageTwo);
         let newDictionary = [
@@ -185,37 +187,22 @@ class App extends Component {
         this.updateFilteredDictionary('', 1, newDictionary);
     }
 
-    reduceLevel() {
+    adjustLevel(event) {
+        console.log(event.target.value);
         let updatedDictionary = this.state.dictionary.map(vocabulary => {
             let checkBox = document.getElementById("checkbox-" + vocabulary.id);
             if (checkBox) {
                 if (checkBox.checked && vocabulary.MemoryLevel > 1) {
-                    return {
-                        ...vocabulary,
-                        MemoryLevel: vocabulary.MemoryLevel - 1
-                    }
-                } else {
-                    return vocabulary;
-                }
-            } else {
-                return vocabulary;
-            }
-        })
-        this.updateFilteredDictionary(this.state.filter, this.state.currentPage, updatedDictionary, false);
-        this.setState({
-            dictionary: updatedDictionary
-        })
-        this.updateDictionaryDatabase(updatedDictionary);
-    }
-
-    resetLevel() {
-        let updatedDictionary = this.state.dictionary.map(vocabulary => {
-            let checkBox = document.getElementById("checkbox-" + vocabulary.id);
-            if (checkBox) {
-                if (checkBox.checked && vocabulary.MemoryLevel > 1) {
-                    return {
-                        ...vocabulary,
-                        MemoryLevel: 1
+                    if (event.target.value === 'reduce') {
+                        return {
+                            ...vocabulary,
+                            MemoryLevel: vocabulary.MemoryLevel - 1
+                        }
+                    } else {
+                        return {
+                            ...vocabulary,
+                            MemoryLevel: 1
+                        }
                     }
                 } else {
                     return vocabulary;
@@ -472,7 +459,7 @@ class App extends Component {
                                 countryCodeTwo={this.state.countryCodeTwo}
                                 dictionary={this.state.dictionary}
                                 getDictionary={this.getDictionary}
-                                onClickReduceLevel={this.reduceLevel}
+                                onClickAdjustLevel={this.adjustLevel}
                                 onClickResetLevel={this.resetLevel}
                                 onClickDeleteVocabulary={this.deleteVocabulary}
                                 filter={this.state.filter}

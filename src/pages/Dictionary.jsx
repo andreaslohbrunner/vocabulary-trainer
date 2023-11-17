@@ -37,7 +37,8 @@ class Dictionary extends Component {
                                     <button
                                         type="submit"
                                         className="btn w-100 btn-primary"
-                                        onClick={this.props.onClickReduceLevel}
+                                        onClick={this.props.onClickAdjustLevel}
+                                        value="reduce"
                                     >
                                         Reduce Level
                                     </button>
@@ -46,7 +47,8 @@ class Dictionary extends Component {
                                     <button
                                         type="submit"
                                         className="btn w-100 btn-secondary"
-                                        onClick={this.props.onClickResetLevel}
+                                        onClick={this.props.onClickAdjustLevel}
+                                        value="reset"
                                     >
                                         Reset Level
                                     </button>

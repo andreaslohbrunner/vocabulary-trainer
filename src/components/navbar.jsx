@@ -8,7 +8,13 @@ class NavBar extends Component {
             <div>
                 <nav className="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="/">Vocabulary Trainer</a>
+                        <NavLink
+                            className="navbar-brand"
+                            to='/'
+                            href="#"
+                        >
+                            Vocabulary Trainer
+                        </NavLink>
                         <button
                             className="navbar-toggler"
                             type="button"
