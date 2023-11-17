@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/vocabulary-trainer/static/css/main.05587e20.css",
-    "main.js": "/vocabulary-trainer/static/js/main.d4b71bd0.js",
-    "static/media/choose-languages.PNG": "/vocabulary-trainer/static/media/choose-languages.dfcccd6af94beeccdca5.PNG",
-    "static/media/add-vocabulary.PNG": "/vocabulary-trainer/static/media/add-vocabulary.15ccbc73b8c34046c304.PNG",
-    "static/media/test.PNG": "/vocabulary-trainer/static/media/test.2a4a8ba9d0df03bb1f2b.PNG",
-    "static/media/dictionary.PNG": "/vocabulary-trainer/static/media/dictionary.b4eff5cd3e6b77b0c7fd.PNG",
-    "index.html": "/vocabulary-trainer/index.html",
-    "main.05587e20.css.map": "/vocabulary-trainer/static/css/main.05587e20.css.map",
-    "main.d4b71bd0.js.map": "/vocabulary-trainer/static/js/main.d4b71bd0.js.map"
+    "main.css": "/static/css/main.05587e20.css",
+    "main.js": "/static/js/main.851dc7e3.js",
+    "static/media/choose-languages.PNG": "/static/media/choose-languages.dfcccd6af94beeccdca5.PNG",
+    "static/media/add-vocabulary.PNG": "/static/media/add-vocabulary.15ccbc73b8c34046c304.PNG",
+    "static/media/test.PNG": "/static/media/test.2a4a8ba9d0df03bb1f2b.PNG",
+    "static/media/dictionary.PNG": "/static/media/dictionary.b4eff5cd3e6b77b0c7fd.PNG",
+    "index.html": "/index.html",
+    "main.05587e20.css.map": "/static/css/main.05587e20.css.map",
+    "main.851dc7e3.js.map": "/static/js/main.851dc7e3.js.map"
   },
   "entrypoints": [
     "static/css/main.05587e20.css",
-    "static/js/main.d4b71bd0.js"
+    "static/js/main.851dc7e3.js"
   ]
 }
