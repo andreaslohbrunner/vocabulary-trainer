@@ -9,7 +9,7 @@ class NavBar extends Component {
                 <nav className="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
                     <div className="container-fluid">
                         <NavLink
-                            to='/'
+                            to='/vocabulary-trainer'
                             className="navbar-brand"
                             href="#"
                         >
@@ -29,7 +29,7 @@ class NavBar extends Component {
                         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div className="navbar-nav">
                                 <NavLink
-                                    to='/'
+                                    to='/vocabulary-trainer'
                                     className="nav-link active"
                                     aria-current="page"
                                     href="#"
@@ -37,28 +37,28 @@ class NavBar extends Component {
                                     Home
                                 </NavLink>
                                 <NavLink
-                                    to='/chooselanguages'
+                                    to='choose-languages'
                                     className="nav-link"
                                     href="#"
                                 >
                                     Choose Languages
                                 </NavLink>
                                 <NavLink
-                                    to='/addvocabulary'
+                                    to='add-vocabulary'
                                     className="nav-link"
                                     href="#"
                                 >
                                     Add Vocabulary
                                 </NavLink>
                                 <NavLink
-                                    to='/dictionary'
+                                    to='dictionary'
                                     className="nav-link"
                                     href="#"
                                 >
                                     Dictionary
                                 </NavLink>
                                 <NavLink
-                                    to='/test'
+                                    to='test'
                                     className="nav-link"
                                     href="#"
                                 >

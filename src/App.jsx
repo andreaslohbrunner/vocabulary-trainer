@@ -411,7 +411,7 @@ class App extends Component {
             <BrowserRouter>
                 <Routes>
                     <Route
-                        path="/"
+                        path="/vocabulary-trainer"
                         element={<SharedLayout
                             languageOne={this.state.languageOne}
                             languageTwo={this.state.languageTwo}
@@ -422,7 +422,7 @@ class App extends Component {
                     >
                         <Route index element={<Home />} />
                         <Route
-                            path="chooselanguages"
+                            path="choose-languages"
                             element={<ChooseLanguages 
                                 databaseDictionaries={this.state.databaseDictionaries}
                                 languageOne={this.state.languageOne}
@@ -434,7 +434,7 @@ class App extends Component {
                             />}
                         />
                         <Route
-                            path="addvocabulary"
+                            path="add-vocabulary"
                             element={<AddVocabulary 
                                 languageOne={this.state.languageOne}
                                 languageTwo={this.state.languageTwo}

@@ -19,7 +19,7 @@ class CardLinks extends Component {
                     </p>
                     <Link
                         className="button-home btn btn-primary text-center mx-2"
-                        to={'/' + this.props.link}
+                        to={this.props.link}
                     >
                         Go to
                     </Link>

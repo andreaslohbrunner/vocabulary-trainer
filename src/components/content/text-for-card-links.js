@@ -4,14 +4,14 @@ export const textsForCardLinks = [
         header: 'Choose Languages',
         description: 'Choose the languages, you want to work with.',
         image: 'choose-languages',
-        link: 'chooselanguages'
+        link: 'choose-languages'
     },
     {
         id: 1,
         header: 'Add Vocabulary',
         description: 'Add new vocabularies to your dictionary.',
         image: 'add-vocabulary',
-        link: 'addvocabulary'
+        link: 'add-vocabulary'
     },
     {
         id: 2,
