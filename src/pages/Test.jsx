@@ -327,7 +327,7 @@ class Test extends Component {
                 const value = Math.round((data.datasets[0].data[0]/(data.datasets[0].data[0]+data.datasets[0].data[1]))*100);
 
                 ctx.save();
-                ctx.font = 'bolder 40px sans-serif';
+                ctx.font = 'bolder 2em sans-serif';
                 ctx.fillStyle = '#14A44D';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -397,8 +397,8 @@ class Test extends Component {
                                         </i>
                                     </i>
                                 </div>
-                                <div className="col-3"></div>
-                                <div className="text-center col-2">
+                                <div className="col-1"></div>
+                                <div className="text-center col-4">
                                     <button
                                         type="submit"
                                         className="btn btn-primary text-white w-100"
@@ -416,7 +416,7 @@ class Test extends Component {
                                         plugins={[doughnutTextCenter]}
                                     ></Doughnut>
                                 </div>
-                                <div className={"col-4"}>
+                                <div className="col-4">
                                     <div className={"mb-5" + showElementsTotalEndScore}>
                                         No more vocabularies left to test! Great job!
                                         These are your final results:
@@ -428,7 +428,7 @@ class Test extends Component {
                                         </span>
                                         correct!
                                     </p>
-                                    <h5 className="mt-5 text-center">
+                                    <h5 className="mt-5 text-center d-none d-sm-block">
                                         Your Score: <br/>
                                         <span className="fw-bold">
                                             {scoreToRender}%

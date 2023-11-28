@@ -217,12 +217,12 @@ class ChooseLanguages extends Component {
                                 </button>
                                 <button
                                     type="submit"
-                                    className={"button-language btn col-2 btn-danger  mx-1" + this.state.showSelectOptions}
+                                    className={"button-language btn col-3 col-sm-2 btn-danger  mx-1" + this.state.showSelectOptions}
                                     onClick={this.cancel}
                                 >
                                     Cancel
                                 </button>
-                                <div className="button-language col-7 bg-secondary text-white text-center fw-bold rounded-pill pt-1 w-60">
+                                <div className="button-language col-6 col-sm-7 bg-secondary text-white text-center fw-bold rounded-4 pt-1 w-60">
                                     {this.state.textDisplay}
                                 </div>
                             </div>

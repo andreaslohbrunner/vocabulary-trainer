@@ -32,7 +32,7 @@ class Dictionary extends Component {
                             <div className="card-header">
                                 <h3>Vocabulary List</h3>
                             </div>
-                            <div className="dictionary-options row mt-3 mx-2">
+                            <div className="dictionary-options row mt-3 mx-2 d-flex align-items-center">
                                 <div className="col-4">
                                     <button
                                         type="submit"
